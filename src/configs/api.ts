@@ -24,4 +24,5 @@ export const API_PATHS = {
   listItem: 'https://jsonplaceholder.typicode.com/photos',
   userProfile: `${getBaseUrl(APIService.public)}/user`,
   location: `${getBaseUrl(APIService.public)}/location`,
+  productList: 'https://api.gearfocus.div4.pgtest.co/api/products/list',
 };

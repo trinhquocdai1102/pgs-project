@@ -129,7 +129,7 @@ const LoginForm = (props: Props) => {
           type="submit"
           style={{ minWidth: '160px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
         >
-          <FormattedMessage id="register" />
+          <FormattedMessage id="signUp" />
         </Link>
       </div>
     </>

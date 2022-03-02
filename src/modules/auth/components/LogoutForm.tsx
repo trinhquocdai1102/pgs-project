@@ -1,7 +1,8 @@
+import { IconButton } from '@mui/material';
 import { replace } from 'connected-react-router';
 import Cookies from 'js-cookie';
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+// import { FormattedMessage } from 'react-intl';
 import { useDispatch } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { Action } from 'typesafe-actions';
@@ -24,9 +25,13 @@ const LogoutForm = () => {
   };
   return (
     <>
-      <button className="logout-button" onClick={handleLogout} type="button">
-        <FormattedMessage id="logOut" />
-      </button>
+      <IconButton
+        className="btn"
+        style={{ fontSize: '14px', color: '#222b45', padding: '0', outline: 'none' }}
+        onClick={handleLogout}
+      >
+        Log out
+      </IconButton>
     </>
   );
 };

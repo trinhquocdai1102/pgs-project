@@ -11,6 +11,8 @@
   "confirmPasswordInvalid": "Mật khẩu không trùng khớp",
   "minPasswordInvalid": "Mật khẩu tối thiểu 4 ký tự",
   "signIn": "Đăng nhập",
+  "login": "Đăng nhập",
+  "register": "Đăng ký",
   "signUp": "Đăng ký ngay",
   "alreadyHaveAccount": "Bạn đã có tài khoản?",
   "phoneNumber": "Số điện thoại",
@@ -35,5 +37,6 @@
   "male": "Nam",
   "female": "Nữ",
   "other": "Khác",
-  "user-info": "Thông tin cá nhân"
+  "user-info": "Thông tin cá nhân",
+  "product": "Danh sách sản phẩm"
 }

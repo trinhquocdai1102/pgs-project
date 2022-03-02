@@ -4,7 +4,6 @@ const HomePage = () => {
   return (
     <>
       <title>Trang chủ</title>
-      <h1>Trang chủ</h1>
     </>
   );
 };

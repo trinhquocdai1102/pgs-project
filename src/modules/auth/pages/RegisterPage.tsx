@@ -54,20 +54,6 @@ const RegisterPage = () => {
     [dispatch],
   );
 
-  useEffect(() => {
-    const fetchLocation = async () => {
-      const resp = await dispatch(fetchThunk(API_PATHS.location, 'get'));
-      if (resp.code === RESPONSE_STATUS_SUCCESS) {
-        setLocation(resp.data);
-        return;
-      }
-
-      return;
-    };
-
-    fetchLocation();
-  }, [dispatch]);
-
   const fetchState = useCallback(
     async (pid: number) => {
       if (pid) {
@@ -81,6 +67,20 @@ const RegisterPage = () => {
     },
     [dispatch],
   );
+
+  useEffect(() => {
+    const fetchLocation = async () => {
+      const resp = await dispatch(fetchThunk(API_PATHS.location, 'get'));
+      if (resp.code === RESPONSE_STATUS_SUCCESS) {
+        setLocation(resp.data);
+        return;
+      }
+
+      return;
+    };
+
+    fetchLocation();
+  }, [dispatch]);
 
   return (
     <div

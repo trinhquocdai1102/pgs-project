@@ -1,0 +1,139 @@
+/* Begin: Navbar CSS */
+.w100 {
+  width: 100%;
+}
+
+.w90 {
+  width: var(--wItemSidebar);
+  margin: auto;
+}
+
+.p2s-10 {
+  padding: 0 10px;
+}
+
+.MuiList-root {
+  padding: 15px !important;
+}
+
+.MuiToolbar-root {
+  line-height: var(--navHeight);
+  box-shadow: 0 8px 12px 0 #1a1f33 !important;
+}
+
+.MuiMenuItem-root {
+  padding: 0 !important;
+}
+
+.css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root:hover {
+  background-color: unset !important;
+}
+
+.navbar-avatar-item > div > ul > li:first-child > p {
+  padding-bottom: 10px;
+}
+
+.navbar-avatar-item button {
+  background: unset !important;
+  padding: 0;
+}
+
+.navbar-avatar-item button:hover {
+  color: #36f !important;
+}
+
+.navbar-content svg:hover {
+  cursor: pointer;
+}
+
+.notify-hover:hover .notify-navbar {
+  display: block;
+}
+
+.notify-navbar {
+  display: none;
+  position: absolute;
+  color: #000;
+  background-color: #fff;
+  right: -250px;
+  bottom: -124px;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.notify-navbar button {
+  display: flex;
+  justify-content: space-between;
+  width: var(--sidebarWidth);
+  padding: 0 0 10px;
+}
+
+.notify-navbar button:hover {
+  background: unset;
+  color: #007bff !important;
+  text-decoration: underline;
+}
+
+.notify-navbar button:last-child {
+  padding: 0;
+}
+
+.notify-navbar button span {
+  display: flex;
+  gap: 20px;
+}
+
+/* End: Navbar CSS */
+
+/* Begin: Sidebar CSS */
+.sidebar {
+  min-width: 300px;
+  padding: 10px 0 0;
+  top: var(--navHeight);
+  min-height: 100vh;
+  background: var(--sidebarColor) !important;
+  box-shadow: 0 0.5rem 1rem 0 #1a1f33;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  z-index: 10;
+}
+
+.pro-sidebar .pro-menu.shaped .pro-menu-item > .pro-inner-item > .pro-icon-wrapper {
+  background-color: var(--sidebarColor) !important;
+}
+
+.pro-sidebar .pro-menu > ul > .pro-sub-menu > .pro-inner-list-item {
+  background-color: var(--sidebarColor) !important;
+  margin: auto;
+}
+
+.pro-sidebar .pro-menu > ul > .pro-sub-menu > .pro-inner-list-item > div > ul {
+  padding: 0 !important;
+}
+.pro-sidebar .pro-menu .pro-menu-item > .pro-inner-item {
+  padding: 0 !important;
+  min-height: 48px !important;
+  background-color: var(--sidebarColor) !important;
+  border-bottom: 1px solid #000;
+}
+
+.pro-sidebar .pro-menu .pro-menu-item.pro-sub-menu .pro-inner-list-item {
+  padding: 0 !important;
+}
+
+.pro-sidebar .pro-menu {
+  padding: 0 !important;
+}
+
+.pro-sidebar .pro-menu a {
+  padding-left: 44px;
+}
+/* End: Sidebar CSS */
+
+@media (min-width: 600px) {
+  .css-1t29gy6-MuiToolbar-root {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+}
