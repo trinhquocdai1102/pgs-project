@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
+import moment from 'moment';
 import { IProducts } from '../../../models/products';
 import PowerSettingsNewOutlinedIcon from '@mui/icons-material/PowerSettingsNewOutlined';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { DataGrid } from '@mui/x-data-grid';
 import { Link } from 'react-router-dom';
 // import { Link } from 'react-router-dom';
 
@@ -12,114 +12,126 @@ interface Props {
 
 const ProductItems = (props: Props) => {
   const { product } = props;
-  // const name = product?.map((item, index) => {
-  //   return (
-  //     <Link key={index} to="/a">
-  //       {item.name}
-  //     </Link>
-  //   );
-  // });
-
-  const columns = [
-    {
-      field: 'update',
-      headerName: '',
-      width: 40,
-      renderCell: () => (
-        <button
-          style={{
-            background: 'transparent',
-            outline: 'none',
-            border: 'none',
-          }}
-        >
-          <PowerSettingsNewOutlinedIcon
-            style={{
-              fontSize: '20px',
-              color: '#72b25b',
-              fontWeight: 'bold',
-              display: 'flex',
-              justifyContent: 'center',
-            }}
-          />
-        </button>
-      ),
-    },
-    {
-      field: 'sku',
-      headerName: 'SKU',
-      width: 140,
-    },
-    {
-      field: 'name',
-      headerName: 'Name',
-      // renderCell: () => <Link to="/a">{product?.name}</Link>,
-    },
-    {
-      field: 'category',
-      headerName: 'Category',
-      width: 200,
-    },
-    {
-      field: 'amount',
-      headerName: 'In stock',
-      width: 120,
-    },
-    {
-      field: 'vendor',
-      headerName: 'Vendor',
-    },
-    {
-      field: 'arrivalDate',
-      headerName: 'Arrival Date',
-      width: 140,
-    },
-    {
-      field: 'delete',
-      headerName: '',
-      width: 80,
-      renderCell: () => {
-        return (
-          <div
-            style={{
-              position: 'absolute',
-              right: '20px',
-              borderLeft: '1px dashed #bbb',
-              padding: '0 0 0 20px',
-            }}
-          >
-            <button
-              className="btn"
-              style={{
-                background: '#b18aff',
-                display: 'flex',
-                width: '36px',
-                height: '36px',
-                justifyContent: 'center',
-                borderLeft: '1px dashed #bbb',
-                borderRadius: '4px',
-              }}
-            >
-              <DeleteIcon style={{ fontSize: '24px', color: '#fff' }} />
-            </button>
-          </div>
-        );
-      },
-      flex: 1,
-    },
-  ];
+  const [changeBg, setChangeBg] = useState(true);
 
   return (
-    <div className="table-data">
-      <DataGrid
-        style={{ position: 'relative', fontSize: '14px', color: '#fff', padding: '0 4px' }}
-        rows={product ? product : []}
-        columns={columns}
-        checkboxSelection
-        autoHeight
-        disableSelectionOnClick
-      />
-    </div>
+    <>
+      {product?.map((item, index) => {
+        return (
+          <tr key={index}>
+            <td>
+              <div style={{ display: 'flex', alignItems: 'center', borderRight: '1.5px dashed #bbb' }}>
+                <span
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    borderRight: '1px solid #fff',
+                    paddingRight: '10px',
+                    height: '20px',
+                  }}
+                >
+                  <input type="checkbox" />
+                </span>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    padding: '0 10px',
+                    height: '28px',
+                  }}
+                >
+                  <button
+                    style={{
+                      background: 'transparent',
+                      outline: 'none',
+                      border: 'none',
+                    }}
+                  >
+                    <PowerSettingsNewOutlinedIcon
+                      style={{
+                        fontSize: '20px',
+                        color: '#72b25b',
+                        fontWeight: 'bold',
+                        display: 'flex',
+                        justifyContent: 'center',
+                      }}
+                    />
+                  </button>
+                </div>
+              </div>
+            </td>
+            <td>{item.sku}</td>
+            <td>
+              <Link to="">{item.name}</Link>
+            </td>
+            <td>{item.category}</td>
+            <td>
+              <div
+                style={{
+                  display: 'flex',
+                }}
+              >
+                {changeBg === false && (
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      background: '#ccc',
+                      width: '32px',
+                      height: '32px',
+                      borderRadius: '4px',
+                      fontSize: '14px',
+                      color: '#000',
+                      marginRight: '-4px',
+                    }}
+                  >
+                    $
+                  </div>
+                )}
+                <input
+                  style={{ maxWidth: '100px' }}
+                  type="number"
+                  className={changeBg ? 'change-to-input' : 'change-to-input bg-fff'}
+                  defaultValue={item.amount}
+                  onFocus={() => setChangeBg(false)}
+                  onBlur={() => setChangeBg(true)}
+                />
+              </div>
+            </td>
+            <td>
+              <input
+                type="number"
+                className={changeBg ? 'change-to-input' : 'change-to-input bg-fff'}
+                defaultValue={item.amount}
+                onFocus={() => setChangeBg(false)}
+                onBlur={() => setChangeBg(true)}
+              />
+            </td>
+            <td>
+              <Link to="">{item.vendor}</Link>
+            </td>
+            <td>{moment(new Date(+item.arrivalDate * 1000)).format('MMM DD,YYYY')}</td>
+            <td>
+              <button
+                className="btn"
+                style={{
+                  background: '#b18aff',
+                  display: 'flex',
+                  width: '36px',
+                  height: '36px',
+                  justifyContent: 'center',
+                  borderLeft: '1px dashed #bbb',
+                  borderRadius: '4px',
+                }}
+              >
+                <DeleteIcon style={{ fontSize: '24px', color: '#fff' }} />
+              </button>
+            </td>
+          </tr>
+        );
+      })}
+    </>
   );
 };
 

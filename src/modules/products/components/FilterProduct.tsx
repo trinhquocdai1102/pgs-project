@@ -68,7 +68,7 @@ const FilterProduct = (props: Props) => {
             <button className="btn btn-table-common">Search</button>
           </li>
           <div className={!isOpen ? 'btn-collapse-filter' : 'btn-collapse-filter filter-open'} onClick={handleCollapse}>
-            <ExpandMoreIcon className={!isOpen ? '' : 'rotate180'} />
+            <ExpandMoreIcon className={!isOpen ? '' : 'rotate180'} style={{ color: '#fff' }} />
           </div>
         </ul>
         {isOpen && (
@@ -99,12 +99,11 @@ const FilterProduct = (props: Props) => {
             </li>
             <li className="hidden-search-item">
               <span>Vendor</span>
-              <input type="text" className="filter-input" />
+              <input type="text" className="filter-input" id="vendor" />
             </li>
           </ul>
         )}
       </div>
-      <button className="btn btn-table-common">Add Product</button>
     </>
   );
 };

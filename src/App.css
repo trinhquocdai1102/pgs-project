@@ -9,8 +9,17 @@
   --bgColor: #13132b;
 }
 
+.MuiBox-root.css-i9gxme {
+  margin-bottom: 0 !important;
+}
+
 .borderTop {
   border-top: 1px solid var(--bgColor);
+}
+
+.bg-fff {
+  background: #fff !important;
+  color: #000 !important;
 }
 
 .ml-60px {
@@ -154,6 +163,19 @@ ul {
   background-repeat: no-repeat;
 }
 
+.filter-select-availability {
+  width: 200px;
+}
+
+.filter-input:hover,
+.filter-select-product:hover {
+  background: #1b1b38 !important;
+}
+
+.filter-input[id='vendor']:hover {
+  background: #252547 !important;
+}
+
 .filter-select-category option {
   height: 20px;
 }
@@ -172,7 +194,7 @@ ul {
 }
 
 .btn-collapse-filter.filter-open {
-  bottom: -160px;
+  bottom: -154px;
 }
 
 .filter-input::-webkit-input-placeholder {
@@ -236,6 +258,25 @@ ul {
   color: #fff;
 }
 
+.table-data > thead > tr > th,
+.table-data > thead > tr > td {
+  vertical-align: middle !important;
+}
+
+.table > tbody > tr > td,
+.table > tbody > tr > th,
+.table > tfoot > tr > td,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > thead > tr > th {
+  vertical-align: middle !important;
+}
+
+input[type='checkbox'],
+input[type='radio'] {
+  margin-top: 0 !important;
+}
+
 .table > :not(caption) > * > *,
 .table > :not(:first-child) {
   border: none !important;
@@ -265,103 +306,32 @@ ul {
   opacity: 0.6;
 }
 
-.css-18lolh3-MuiDataGrid-root {
-  border: 1px solid #1b1b38 !important;
-  border-radius: 4px !important;
+.change-to-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 6px 10px 6px 9px;
+  border-radius: 4px;
+  min-height: 32px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 80px;
 }
 
-.css-18lolh3-MuiDataGrid-root .MuiDataGrid-columnHeaderTitleContainer {
-  padding: 16px 24px !important;
-  font-size: 15px;
+.change-to-input::-webkit-outer-spin-button,
+.change-to-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
-.css-18lolh3-MuiDataGrid-root .MuiDataGrid-cell--textLeft {
-  padding: 10px 24px !important;
+.change-to-input[type='number'] {
+  -moz-appearance: textfield;
 }
 
-.css-1pe4mpk-MuiButtonBase-root-MuiIconButton-root {
-  display: none !important;
-}
-
-.css-18lolh3-MuiDataGrid-root .MuiDataGrid-columnHeaderTitleContainer {
-  outline: none !important;
-}
-
-.css-i4bv87-MuiSvgIcon-root {
-  color: #fff;
-}
-
-.css-i4bv87-MuiSvgIcon-root[data-testid='SeparatorIcon'] {
-  display: none !important;
-}
-
-.css-18lolh3-MuiDataGrid-root .MuiDataGrid-cell--textLeft[data-field='update'] {
-  display: flex;
-  justify-content: center;
-  border-right: 1.5px dashed #bbb;
-}
-
-.css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root[api] {
-  border-right: 1px solid #fff !important;
-  border-radius: 0 !important;
-}
-
-.css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root {
-  margin-left: 12px;
-}
-
-.css-18lolh3-MuiDataGrid-root .MuiDataGrid-cell--textCenter {
-  justify-content: right;
-}
-
-.css-1jbbcbn-MuiDataGrid-columnHeaderTitle {
-  overflow: visible !important;
-}
-
-.css-18lolh3-MuiDataGrid-root .MuiDataGrid-cell--textLeft[data-field='name'],
-.css-18lolh3-MuiDataGrid-root .MuiDataGrid-columnHeader--sortable[data-field='name'] {
-  min-width: 26% !important;
-}
-
-.css-18lolh3-MuiDataGrid-root .MuiDataGrid-cell--textLeft[data-field='vendor'],
-.css-18lolh3-MuiDataGrid-root .MuiDataGrid-columnHeader--sortable[data-field='vendor'] {
-  min-width: 18% !important;
-}
-
-.css-16c50h-MuiInputBase-root-MuiTablePagination-select,
-.css-pdct74-MuiTablePagination-selectLabel,
-.css-levciy-MuiTablePagination-displayedRows {
-  font-size: 15px !important;
-  color: #fff !important;
-  margin-bottom: 0 !important;
-}
-
-/* .css-6hp17o-MuiList-root-MuiMenu-list {
-  width: 80px;
-} */
-
-/* .css-6hp17o-MuiList-root-MuiMenu-list > li {
-  justify-content: center;
-  padding: 7px !important;
-} */
-
-.css-pqjvzy-MuiSvgIcon-root-MuiSelect-icon[data-testid='ArrowDropDownIcon'] {
-  right: -12px !important;
-  color: #fff !important;
-}
-
-.css-i4bv87-MuiSvgIcon-root[data-testid='KeyboardArrowLeftIcon'],
-.css-i4bv87-MuiSvgIcon-root[data-testid='ArrowDropDownIcon'],
-.css-i4bv87-MuiSvgIcon-root[data-testid='KeyboardArrowRightIcon'] {
-  font-size: 32px !important;
-}
-
-.MuiList-root {
-  padding: 0 !important;
-}
-
-.css-okt5j6-MuiDataGrid-columnHeaders {
-  border-color: #000 !important;
+tr:hover .change-to-input {
+  cursor: pointer;
+  background-color: #b18aff;
 }
 
 /* End: Table CSS */
@@ -496,6 +466,10 @@ ul {
   background-color: #b18aff !important;
   border-color: #b18aff !important;
   font-size: 15px !important;
+}
+
+.btn-table-common:hover {
+  color: #212529 !important;
 }
 /* End: Button CSS*/
 

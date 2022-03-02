@@ -10,7 +10,6 @@ import { getErrorMessageResponse } from '../../../utils';
 import ProductsForm from '../components/ProductsForm';
 
 const ProductsPage = () => {
-  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
   const listProduct = useSelector((state: AppState) => state.product.product);
   const [errorMessage, setErrorMessage] = useState('');
@@ -19,11 +18,8 @@ const ProductsPage = () => {
 
   const fetchProduct = useCallback(async () => {
     setErrorMessage('');
-    setLoading(true);
 
     const json = await dispatch(fetchThunk(API_PATHS.productList, 'get'));
-
-    setLoading(false);
     if (json) {
       dispatch(setProductData(json.data));
 
@@ -55,21 +51,8 @@ const ProductsPage = () => {
   }, [listProduct, templateProduct]);
 
   return (
-    <div style={{ padding: '36px 36px 12px', backgroundColor: '#1b1b38', width: '100vw' }}>
-      {loading && (
-        <div className="d-flex justify-content-center">
-          <div className="spinner-border" role="status"></div>
-          <span className="sr-only">Loading...</span>
-        </div>
-      )}
-      {loading === false && (
-        <ProductsForm
-          listProduct={listProduct}
-          isLoading={loading}
-          errorMessage={errorMessage}
-          productCategory={productCategory}
-        />
-      )}
+    <div style={{ padding: '36px 36px 12px', width: '100vw', backgroundColor: '#1b1b38' }}>
+      <ProductsForm listProduct={listProduct} errorMessage={errorMessage} productCategory={productCategory} />
     </div>
   );
 };

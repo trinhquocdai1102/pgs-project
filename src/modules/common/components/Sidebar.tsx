@@ -46,7 +46,12 @@ const Sidebar = (props: Props) => {
         </ProSidebar>
       )}
       {isSidebarOpen === false && (
-        <ProSidebar className="sidebar w60px">
+        <ProSidebar
+          className="sidebar w60px"
+          onClick={() => {
+            setIsSidebarOpen(true);
+          }}
+        >
           <Menu iconShape="square">
             <SubMenu
               icon={<LocalOfferOutlinedIcon />}

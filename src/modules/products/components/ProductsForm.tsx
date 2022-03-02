@@ -6,7 +6,6 @@ import { IProducts } from '../../../models/products';
 import { ICategory } from '../../../models/category';
 
 interface Props {
-  isLoading: boolean;
   errorMessage: string;
   listProduct?: IProducts[];
   productCategory?: ICategory[];
@@ -26,7 +25,41 @@ const ProductsForm = (props: Props) => {
         <FormattedMessage id="product" />
       </title>
       <FilterProduct category={productCategory} />
-      <ProductItems product={listProduct} />
+      <button className="btn btn-table-common">Add Product</button>
+      <table className="table table-data">
+        <thead>
+          <tr>
+            <th>
+              <input type="checkbox" />
+            </th>
+            <th>
+              <span>SKU</span>
+            </th>
+            <th>
+              <span>Name</span>
+            </th>
+            <th>
+              <span>Category</span>
+            </th>
+            <th>
+              <span>Price</span>
+            </th>
+            <th>
+              <span>In stock</span>
+            </th>
+            <th>
+              <span>Vendor</span>
+            </th>
+            <th>
+              <span>Arrival Date</span>
+            </th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <ProductItems product={listProduct} />
+        </tbody>
+      </table>
     </div>
   );
 };
