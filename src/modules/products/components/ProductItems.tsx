@@ -7,16 +7,17 @@ import { Link } from 'react-router-dom';
 // import { Link } from 'react-router-dom';
 
 interface Props {
-  product?: IProducts[];
+  productItem?: IProducts[];
+  handleSelectAll(e: { target: { name: string; checked: boolean } }): void;
 }
 
 const ProductItems = (props: Props) => {
-  const { product } = props;
+  const { productItem, handleSelectAll } = props;
   const [changeBg, setChangeBg] = useState(true);
 
   return (
     <>
-      {product?.map((item, index) => {
+      {productItem?.map((item, index) => {
         return (
           <tr key={index}>
             <td>
@@ -30,7 +31,7 @@ const ProductItems = (props: Props) => {
                     height: '20px',
                   }}
                 >
-                  <input type="checkbox" />
+                  <input type="checkbox" name={item.name} checked={item.checked || false} onChange={handleSelectAll} />
                 </span>
                 <div
                   style={{

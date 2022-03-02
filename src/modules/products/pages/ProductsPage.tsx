@@ -51,7 +51,15 @@ const ProductsPage = () => {
   }, [listProduct, templateProduct]);
 
   return (
-    <div style={{ padding: '36px 36px 12px', width: '100vw', backgroundColor: '#1b1b38' }}>
+    <div
+      style={{
+        padding: '36px 36px 100px',
+        width: '100vw',
+        backgroundColor: '#1b1b38',
+        height: '100%',
+        transition: '0.5s',
+      }}
+    >
       <ProductsForm listProduct={listProduct} errorMessage={errorMessage} productCategory={productCategory} />
     </div>
   );

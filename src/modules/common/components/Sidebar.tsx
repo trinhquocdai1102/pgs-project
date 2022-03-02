@@ -18,7 +18,7 @@ const Sidebar = (props: Props) => {
   };
 
   return (
-    <>
+    <div>
       {isSidebarOpen === true && (
         <ProSidebar className="sidebar">
           <Menu iconShape="square" style={{ backgroundColor: 'var(--sidebarColor)' }}>
@@ -70,7 +70,7 @@ const Sidebar = (props: Props) => {
           </Menu>
         </ProSidebar>
       )}
-    </>
+    </div>
   );
 };
 

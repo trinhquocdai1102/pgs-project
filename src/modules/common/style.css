@@ -89,7 +89,7 @@
 .sidebar {
   min-width: 300px;
   padding: 10px 0 0;
-  top: var(--navHeight);
+  margin-top: var(--navHeight);
   min-height: 100vh;
   background: var(--sidebarColor) !important;
   box-shadow: 0 0.5rem 1rem 0 #1a1f33;
@@ -97,6 +97,14 @@
   font-size: 13px;
   font-weight: 600;
   z-index: 10;
+}
+
+.pro-sidebar {
+  height: calc(100% - var(--navHeight)) !important;
+}
+
+.pro-sidebar > .pro-sidebar-inner {
+  background-color: var(--sidebarColor) !important;
 }
 
 .pro-sidebar .pro-menu.shaped .pro-menu-item > .pro-inner-item > .pro-icon-wrapper {
@@ -129,6 +137,35 @@
 .pro-sidebar .pro-menu a {
   padding-left: 44px;
 }
+
+/* Begin: Bottom Bar CSS */
+.footer-bar-fixed {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 306px;
+  width: calc(80vw + 10px);
+  line-height: 38px;
+  padding: 15px 36px;
+  background-color: var(--sidebarColor);
+  box-shadow: 2px 2px 10px 2px #b18aff;
+  border-bottom: 2px solid #000;
+}
+
+.footer-bar-content {
+  margin: 0 auto;
+}
+
+.footer-btn {
+  padding: 6px 12px;
+  color: #fff !important;
+  line-height: 38px;
+  font-size: 16px !important;
+  background-color: #f0ad4e !important;
+  border-color: #eea236 !important;
+}
+/* End: Bottom Bar CSS */
+
 /* End: Sidebar CSS */
 
 @media (min-width: 600px) {
