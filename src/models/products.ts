@@ -1,5 +1,4 @@
 export interface IProducts {
-  check: boolean;
   id: string;
   sku: string;
   name: string;
@@ -9,6 +8,7 @@ export interface IProducts {
   vendor: string;
   arrivalDate: string;
   checked?: boolean;
+  delete?: boolean;
 }
 
 export interface IProductsFilter {

@@ -7,6 +7,25 @@
   --wItemSidebar: 84%;
   --sidebarColor: #323259;
   --bgColor: #13132b;
+  --buttonColor: #b18aff;
+}
+
+::-webkit-scrollbar {
+  height: 10px;
+  width: 10px;
+  background-color: var(--bgColor);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #b18aff;
+}
+
+button[disabled] {
+  opacity: 0.5;
+}
+
+.opacity {
+  opacity: 0.5;
 }
 
 .MuiBox-root.css-i9gxme {
@@ -17,8 +36,13 @@
   border-top: 1px solid var(--bgColor);
 }
 
-.bg-fff {
+.change-to-input.bg-fff,
+.div-change-to-input.bg-fff {
   background: #fff !important;
+  color: #000 !important;
+}
+
+.div-change-to-input.bg-fff input {
   color: #000 !important;
 }
 
@@ -57,17 +81,6 @@ ul {
   display: none !important;
 }
 
-/* Status CSS */
-#status option[value] {
-  color: #37b1df;
-  font-size: 16px;
-}
-
-#status option:first-child {
-  color: unset;
-  font-size: 14px;
-}
-
 .pagination-list.active {
   background: #37b1df;
   color: #fff;
@@ -82,6 +95,24 @@ ul {
 .App {
   text-align: center;
 }
+
+/* Begin: Login CSS */
+.login-email-input.MuiFormControl-root,
+.login-password-input.MuiFormControl-root {
+  margin: 0 0 8px !important;
+}
+
+.login-email-input .css-1wc848c-MuiFormHelperText-root {
+  margin-bottom: -8px !important;
+}
+
+.login-input .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input {
+  border: 1px solid #ccc;
+  background-color: #fff !important;
+  padding: 10.5px !important;
+  border-radius: 4px !important;
+}
+/* End: Login CSS */
 
 /* Begin: Form CSS */
 .form-gender {
@@ -144,13 +175,13 @@ ul {
 .filter-select-product {
   border: 1px solid var(--bgColor) !important;
   padding: 8px 16px;
-  height: 24px;
   font-size: 15px;
   background-color: #252547;
   color: #fff !important;
   outline: none;
   width: 100%;
-  height: 42px;
+  min-height: 42px;
+  height: auto;
   border-radius: 4px;
 }
 
@@ -194,7 +225,7 @@ ul {
 }
 
 .btn-collapse-filter.filter-open {
-  bottom: -154px;
+  bottom: -138px;
 }
 
 .filter-input::-webkit-input-placeholder {
@@ -202,7 +233,7 @@ ul {
 }
 
 .btn-collapse-filter svg {
-  font-size: 22px !important;
+  font-size: 28px !important;
   transition: all 1s;
 }
 
@@ -228,6 +259,9 @@ ul {
 
 .hidden-search-item > div > div {
   margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .hidden-search-item {
@@ -242,34 +276,55 @@ ul {
   display: none;
 }
 
+.css-1qauw1y-MuiAutocomplete-root .MuiOutlinedInput-root .MuiAutocomplete-input {
+  padding: 0 !important;
+}
+
+.MuiAutocomplete-hasPopupIcon.MuiAutocomplete-hasClearIcon.css-ra1yww-MuiAutocomplete-root .MuiOutlinedInput-root,
+.MuiAutocomplete-inputRoot {
+  font-size: 15px !important;
+  padding: 0 !important;
+  color: #fff !important;
+}
+
+.MuiAutocomplete-popper[role='presentation'] {
+  font-size: 50px !important;
+}
+
+.MuiAutocomplete-root.filter-input.css-18gspv4-MuiAutocomplete-root {
+  margin: 0 !important;
+}
+
 /* End: Form CSS */
 
 /* Begin: Table CSS */
 .table-data {
-  margin-top: 24px;
-  background-color: #323259;
+  background-color: #323259 !important;
   font-size: 14px !important;
-  width: calc(100vw- 270px);
+  width: calc(100vw- 256px);
   border-radius: 4px;
+  color: #fff !important;
 }
 
-.table-data,
-.table-data tr {
-  color: #fff;
+.table-data a {
+  color: dodgerblue !important;
+  text-decoration: none !important;
 }
 
-.table-data > thead > tr > th,
-.table-data > thead > tr > td {
+.table-data a:hover {
+  text-decoration: underline !important;
+}
+
+.table-data th .MuiCheckbox-root .css-i4bv87-MuiSvgIcon-root {
+  width: 18px !important;
+  margin-left: -3px !important;
+}
+
+.table-data th,
+.table-data td,
+.table-data td input {
   vertical-align: middle !important;
-}
-
-.table > tbody > tr > td,
-.table > tbody > tr > th,
-.table > tfoot > tr > td,
-.table > tfoot > tr > th,
-.table > thead > tr > td,
-.table > thead > tr > th {
-  vertical-align: middle !important;
+  color: #fff !important;
 }
 
 input[type='checkbox'],
@@ -286,9 +341,16 @@ input[type='radio'] {
   border-top: 1px solid #000 !important;
 }
 
-.table-data th,
+.table-data th {
+  padding: 2px 17px !important;
+}
 .table-data td {
   padding: 10px 17px !important;
+}
+
+.pagination-container {
+  padding-top: 6.5px;
+  padding-bottom: 6.5px;
 }
 
 .table-data-BtnUpdate {
@@ -306,34 +368,68 @@ input[type='radio'] {
   opacity: 0.6;
 }
 
-.change-to-input {
+.table-data .change-to-input,
+.table-data .div-change-to-input input {
   background: transparent;
   border: none;
   outline: none;
-  padding: 6px 10px 6px 9px;
-  border-radius: 4px;
   min-height: 32px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 80px;
+  border-radius: 4px;
 }
 
-.change-to-input::-webkit-outer-spin-button,
-.change-to-input::-webkit-inner-spin-button {
+.table-data .change-to-input {
+  padding: 6px 10px 6px 9px;
+  max-width: 80px;
+  min-height: 32px;
+}
+.table-data .div-change-to-input {
+  padding: 0 10px;
+  max-width: 100px;
+  border-radius: 4px;
+}
+
+.table-data .change-to-input::-webkit-outer-spin-button,
+.table-data .change-to-input::-webkit-inner-spin-button,
+.table-data .div-change-to-input input::-webkit-outer-spin-button,
+.table-data .div-change-to-input input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-.change-to-input[type='number'] {
+.table-data .change-to-input[type='number'] {
   -moz-appearance: textfield;
 }
 
-tr:hover .change-to-input {
-  cursor: pointer;
-  background-color: #b18aff;
+.table-data tr:hover .change-to-input.input-default,
+.table-data tr:hover .div-change-to-input.input-default {
+  cursor: pointer !important;
+  background: var(--buttonColor) !important;
 }
 
+.table-data .css-1ex1afd-MuiTableCell-root,
+.table-data .css-1ygcj2i-MuiTableCell-root {
+  border: none !important;
+}
+
+.table-data .css-1e6y48t-MuiButtonBase-root-MuiButton-root {
+  min-width: unset !important;
+}
+
+.table-toolbar {
+  color: #ccc;
+}
+
+.table-toolbar .MuiToolbar-root {
+  box-shadow: none !important;
+}
+
+.table-toolbar .MuiToolbar-root.MuiToolbar-gutters.MuiToolbar-regular.css-14covj4-MuiToolbar-root {
+  min-height: unset !important;
+  margin: -10px 0 10px;
+}
 /* End: Table CSS */
 
 /* Begin: User Information CSS */
@@ -461,11 +557,13 @@ tr:hover .change-to-input {
 }
 
 .btn-table-common {
-  height: 38px;
+  height: 34.5px;
   color: #fff !important;
-  background-color: #b18aff !important;
-  border-color: #b18aff !important;
+  padding: 6px 12px !important;
+  background-color: var(--buttonColor) !important;
+  border-color: var(--buttonColor) !important;
   font-size: 15px !important;
+  text-transform: capitalize !important;
 }
 
 .btn-table-common:hover {
@@ -487,10 +585,7 @@ tr:hover .change-to-input {
 
 /* Begin: Modal CSS */
 .confirm-modal,
-.trans-modal,
-.behind-modal,
-.modal-chooseAvatar,
-.modal-chooseAvatar-box {
+.behind-modal {
   position: fixed;
   display: flex;
   align-items: center;
@@ -499,59 +594,48 @@ tr:hover .change-to-input {
   left: 0;
   top: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.6);
-  z-index: 9;
+  background-color: rgba(0, 0, 0, 0.35);
+  z-index: 10;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   max-width: unset !important;
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
+  /* -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px); */
 }
 
 .behind-modal {
   background-color: unset;
-  z-index: 9;
-}
-
-.confirm-modal-content,
-.trans-modal-content {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  background-color: #fff;
   z-index: 10;
 }
 
-.modal-chooseAvatar-box {
-  display: block;
-  width: 96vw;
-  background: #fff;
-  max-width: 1100px !important;
-  height: 54%;
-  max-height: 500px;
-  margin: auto;
-  padding: 20px 20px;
-  border-radius: 8px;
-}
-
-.modal-chooseAvatar-content {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  left: 20px;
-  display: flex;
-}
-
 .confirm-modal-content {
-  min-height: 260px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  min-height: 182px;
   align-items: center;
   width: 100vw;
-  max-width: 800px;
+  max-width: 400px;
+  background-color: #323259;
+  color: #fff;
+  box-shadow: none !important;
   border-radius: 4px;
+  margin-bottom: 40px;
+  z-index: 10;
 }
 
-.confirm-modal-content p {
-  margin-top: -60px;
-  font-size: 28px;
+.modal-content-text {
+  width: 100%;
+  margin-top: -68px;
+  font-size: 15px;
+}
+
+.modal-content-text > div:first-child {
+  font-weight: bold;
+}
+
+.modal-content-text > div {
+  border-bottom: 1px solid #1b1b38;
+  padding: 16px 24px;
 }
 
 .close-modal-btn {
@@ -570,7 +654,10 @@ tr:hover .change-to-input {
   display: flex;
   gap: 40px;
   position: absolute;
-  bottom: 60px;
+  justify-content: space-between;
+  bottom: 0;
+  width: 100%;
+  padding: 16px 24px;
 }
 
 .modal-button button {
@@ -580,58 +667,44 @@ tr:hover .change-to-input {
   border-radius: 4px;
 }
 
-.modal-button_confirm {
-  background-color: red;
+.btn-modal-yes,
+.btn-modal-no {
+  border: none;
   color: #fff;
+  width: 62px !important;
+  height: 40px !important;
+  font-size: 14px !important;
+  font-weight: bold !important;
 }
 
-.modal-button_cancel {
-  background-color: #ccc;
+.btn-modal-yes {
+  box-shadow: 0 0 0 0 #7b51db, 0 0 0 0 #5a37b8, 0 0 transparent !important;
+  background-image: linear-gradient(90deg, #b18aff, #a16eff) !important;
 }
 
-.modal-button_save {
-  background-color: green;
-  color: #fff;
+.btn-modal-yes:hover {
+  background-image: linear-gradient(90deg, #d5bfff, #b18aff) !important;
+  color: #fff !important;
 }
 
-.modal-button_confirm:hover,
-.modal-button_cancel:hover,
-.modal-button_save {
-  opacity: 0.7;
+.btn-modal-no {
+  background-image: linear-gradient(90deg, #ff708d, #ff3d71) !important;
+  box-shadow: 0 0 0 0 #db2c66, 0 0 0 0 #b81d5b, 0 0 transparent !important;
+  transition-duration: 32.15s !important;
+  transition-property: background-image, border-color, box-shadow, color !important;
+  transition-timing-function: ease-in !important;
 }
 
-.modal-delete-btn {
-  font-size: 20px;
+.btn-modal-no {
+  background-image: linear-gradient(90deg, #ff708d, #ff3d71) !important;
   color: red;
 }
 
-.trans-modal-content {
-  min-height: 60vh;
-  width: 100vw;
-  max-width: 480px;
-  border-radius: 4px;
-  padding: 20px 4%;
+.btn-modal-no:hover {
+  background-image: linear-gradient(90deg, #ffa8b4, #ff708d) !important;
+  color: #fff !important;
 }
 
-.trans-modal-content p {
-  font-size: 28px;
-  font-weight: bold;
-  position: absolute;
-  top: 20px;
-}
-
-.trans-modal-form {
-  margin: auto;
-  text-align: left;
-}
-
-.trans-modal-form .col-md-12:last-child {
-  margin-bottom: 40px !important;
-}
-
-.trans-modal-form label {
-  font-size: 18px;
-}
 /* End: Modal CSS */
 
 /* Begin: Pagination CSS */
@@ -688,9 +761,6 @@ tr:hover .change-to-input {
 
 /* Responsive */
 @media (min-width: 1200px) {
-  .listItem {
-    width: 60vw;
-  }
 }
 
 @media (max-width: 991px) {
@@ -705,30 +775,4 @@ tr:hover .change-to-input {
 }
 
 @media (max-width: 1023px) {
-  .trans-header {
-    display: block;
-  }
-
-  .trans-header-btn {
-    margin-top: 40px;
-    /* justify-content:ri */
-  }
-
-  .trans-header-content li,
-  .trans-header-content .date-input {
-    width: 160px;
-  }
-
-  .trans-table-header th,
-  .trans-table-content td {
-    padding: 0 8px;
-  }
-
-  .trans-table-header th {
-    width: 8%;
-  }
-
-  .trans-table-content td > div {
-    max-width: 140px;
-  }
 }

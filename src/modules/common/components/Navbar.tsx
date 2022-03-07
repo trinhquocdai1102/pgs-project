@@ -1,5 +1,5 @@
 import React, { useState, FC } from 'react';
-import { ACCESS_TOKEN_KEY, APIpath, avatarFemaleDefault, avatarMaleDefault } from '../../../utils/constants';
+import { ACCESS_TOKEN_KEY, APIHost, avatarFemaleDefault, avatarMaleDefault } from '../../../utils/constants';
 import Cookies from 'js-cookie';
 import '../style.css';
 import { useHistory } from 'react-router-dom';
@@ -19,13 +19,14 @@ import Tooltip from '@mui/material/Tooltip';
 import ArrowCircleDownOutlinedIcon from '@mui/icons-material/ArrowCircleDownOutlined';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import WarningAmberOutlinedIcon from '@mui/icons-material/WarningAmberOutlined';
-import LogoutForm from '../../auth/components/LogoutForm';
 import Sidebar from './Sidebar';
 
-interface Props {}
+interface Props {
+  isSidebarOpen: boolean;
+  setIsSidebarOpen: any;
+}
 
-const Navbar: FC<Props> = ({ children }) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+const Navbar: FC<Props> = ({ children, isSidebarOpen, setIsSidebarOpen }) => {
   const isLogin = Cookies.get(ACCESS_TOKEN_KEY);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const history = useHistory();
@@ -42,7 +43,7 @@ const Navbar: FC<Props> = ({ children }) => {
       return avatarMaleDefault;
     }
   };
-  const src = user?.avatar ? `${APIpath}/${user?.avatar}` : checkGender();
+  const src = user?.avatar ? `${APIHost}/${user?.avatar}` : checkGender();
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -54,8 +55,8 @@ const Navbar: FC<Props> = ({ children }) => {
 
   return (
     <>
-      {isLogin && (
-        <Box sx={{ flexGrow: 1 }} style={{ boxShadow: '0 0.5rem 1rem 0 #1a1f33', marginBottom: 'var(--navHeight)' }}>
+      <Box sx={{ flexGrow: 1 }} style={{ marginBottom: 'var(--navHeight)' }} className="top-navbar">
+        {isLogin && (
           <AppBar position="fixed" style={{ background: '#323259' }}>
             <Toolbar style={{ alignItems: 'center' }}>
               <IconButton
@@ -144,20 +145,18 @@ const Navbar: FC<Props> = ({ children }) => {
                     </Typography>
                   </MenuItem>
                   <MenuItem onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">
-                      <LogoutForm />
-                    </Typography>
+                    <Typography textAlign="center">{/* <LogoutForm /> */}</Typography>
                   </MenuItem>
                 </Menu>
               </Box>
             </Toolbar>
           </AppBar>
-          <div style={{ display: 'flex' }}>
-            {isLogin && <Sidebar isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />}
-            {children}
-          </div>
-        </Box>
-      )}
+        )}
+        <div style={{ display: 'flex' }}>
+          {isLogin && <Sidebar isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />}
+          {children}
+        </div>
+      </Box>
     </>
   );
 };

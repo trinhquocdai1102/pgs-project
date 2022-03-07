@@ -1,15 +1,11 @@
-import React, { lazy, Suspense } from 'react';
+import React, { lazy, Suspense, useState } from 'react';
 import { Route, Switch, useLocation } from 'react-router-dom';
 import { ROUTES } from './configs/routes';
 import Navbar from './modules/common/components/Navbar';
-// import Sidebar from './modules/common/components/Sidebar';
 import ProtectedRoute from './modules/common/components/ProtectedRoute';
+import CircularProgress from '@mui/material/CircularProgress';
 
-const HomePage = lazy(() => import('./modules/home/pages/HomePage'));
-const ContactPage = lazy(() => import('./modules/home/pages/ContactPage'));
 const LoginPage = lazy(() => import('./modules/auth/pages/LoginPage'));
-const RegisterPage = lazy(() => import('./modules/auth/pages/RegisterPage'));
-const UserInfoPage = lazy(() => import('./modules/home/pages/UserInfoPage'));
 const ProductsPage = lazy(() => import('./modules/products/pages/ProductsPage'));
 
 // interface Props {
@@ -35,25 +31,38 @@ const ProductsPage = lazy(() => import('./modules/products/pages/ProductsPage'))
 // window.addEventListener('scroll', toggleVisible);
 
 export const Routes = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const location = useLocation();
 
   return (
     <Suspense
       fallback={
-        <div className="d-flex justify-content-center">
-          <div className="spinner-border" role="status"></div>
-          <span className="sr-only">Loading...</span>
+        <div
+          style={{
+            display: 'flex',
+            width: '100vw',
+            minHeight: '100vh',
+            margin: 'auto',
+            alignItems: ' center',
+            justifyContent: 'center',
+            backdropFilter: 'blur(10px)',
+            background: 'transparent',
+          }}
+        >
+          <CircularProgress
+            disableShrink
+            style={{
+              width: '80px',
+              height: '80px',
+            }}
+          />
         </div>
       }
     >
-      <Navbar>
+      <Navbar isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen}>
         <Switch location={location}>
           <Route path={ROUTES.login} component={LoginPage} />
-          <Route path={ROUTES.register} component={RegisterPage} />
-          <ProtectedRoute path={ROUTES.home} component={HomePage} />
-          <ProtectedRoute path={ROUTES.userInfo} component={UserInfoPage} />
-          <ProtectedRoute path={ROUTES.product} component={ProductsPage} />
-          <Route path={ROUTES.contact} component={ContactPage} />
+          <Route path={ROUTES.products} render={(props) => <ProductsPage {...props} isSidebarOpen={isSidebarOpen} />} />
 
           <ProtectedRoute path="/" component={ProductsPage} />
         </Switch>

@@ -6,20 +6,14 @@ export interface ProductState {
   initializeProduct?: IProducts[];
 }
 
-export const setProductData = createCustomAction('products/setProductData', (data: IProducts[]) => ({
-  data,
-}));
-
 export const deleteProduct = createCustomAction('products/deleteProduct', (id: string) => ({ id }));
 
-const actions = { deleteProduct, setProductData };
+const actions = { deleteProduct };
 
 type Action = ActionType<typeof actions>;
 
 export default function reducer(state: ProductState = {}, action: Action) {
   switch (action.type) {
-    case getType(setProductData):
-      return { ...state, product: action.data };
     case getType(deleteProduct): {
       const newData = state.product?.filter((item) => {
         return item.id !== action.id;

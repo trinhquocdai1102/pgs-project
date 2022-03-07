@@ -1,11 +1,66 @@
 import React from 'react';
+import Button from '@mui/material/Button';
 
-const BottomBar = () => {
+interface Props {
+  numSelected: number;
+  numbDelete: number;
+  activeSaveButton: boolean;
+  setOpenModal: any;
+  isSidebarOpen: boolean;
+}
+
+const BottomBar = (props: Props) => {
+  const { numSelected, numbDelete, activeSaveButton, setOpenModal, isSidebarOpen } = props;
   return (
     <>
-      <div style={{ marginTop: '40px', height: '78px' }} className="footer-bar-fixed">
+      <div
+        style={{ height: '78px' }}
+        className={isSidebarOpen ? 'footer-bar-fixed' : 'footer-bar-fixed footer-bar-fixed-full'}
+      >
         <div className="footer-bar-content">
-          <button className="btn footer-btn">Save Change</button>
+          {numbDelete > 0 ? (
+            <Button
+              variant="text"
+              className="footer-btn"
+              onClick={() => {
+                setOpenModal(true);
+              }}
+            >
+              Remove selected
+            </Button>
+          ) : (
+            <Button
+              variant="text"
+              className="footer-btn"
+              disabled={activeSaveButton ? false : true}
+              onClick={() => {
+                setOpenModal(true);
+              }}
+            >
+              Save changes
+            </Button>
+          )}
+          {numSelected > 0 ? (
+            <Button
+              variant="text"
+              className="footer-btn"
+              onClick={() => {
+                setOpenModal(true);
+              }}
+            >
+              Export selected: CSV
+            </Button>
+          ) : (
+            <Button
+              variant="text"
+              className="footer-btn"
+              onClick={() => {
+                setOpenModal(true);
+              }}
+            >
+              Export all: CSV
+            </Button>
+          )}
         </div>
       </div>
     </>

@@ -7,5 +7,5 @@ export const ROUTES = {
   userInfo: '/userInfo',
   transList: '/transList',
   detailItem: '/detailItem',
-  product: '/product',
+  products: '/products',
 };

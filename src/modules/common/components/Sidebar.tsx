@@ -21,28 +21,30 @@ const Sidebar = (props: Props) => {
     <div>
       {isSidebarOpen === true && (
         <ProSidebar className="sidebar">
-          <Menu iconShape="square" style={{ backgroundColor: 'var(--sidebarColor)' }}>
-            <SubMenu
-              title="Category"
-              icon={<LocalOfferOutlinedIcon />}
-              onClick={() => handleCollapse()}
-              className={isCollapse ? 'w100' : 'w90'}
-            >
-              <MenuItem>
-                <Link to="/products">Products</Link>
-              </MenuItem>
-            </SubMenu>
-            <SubMenu
-              title="User"
-              icon={<PeopleAltOutlinedIcon />}
-              onClick={() => handleCollapse()}
-              className={isCollapse ? 'w100' : 'w90'}
-            >
-              <MenuItem>
-                <Link to="/user-list">User list</Link>
-              </MenuItem>
-            </SubMenu>
-          </Menu>
+          <div className={isSidebarOpen ? 'display-full' : 'displayNone'}>
+            <Menu iconShape="square" style={{ backgroundColor: 'var(--sidebarColor)' }}>
+              <SubMenu
+                title="Category"
+                icon={<LocalOfferOutlinedIcon />}
+                onClick={() => handleCollapse()}
+                className={isCollapse ? 'w100' : 'w90'}
+              >
+                <MenuItem>
+                  <Link to="/products">Products</Link>
+                </MenuItem>
+              </SubMenu>
+              <SubMenu
+                title="User"
+                icon={<PeopleAltOutlinedIcon />}
+                onClick={() => handleCollapse()}
+                className={isCollapse ? 'w100' : 'w90'}
+              >
+                <MenuItem>
+                  <Link to="/user-list">User list</Link>
+                </MenuItem>
+              </SubMenu>
+            </Menu>
+          </div>
         </ProSidebar>
       )}
       {isSidebarOpen === false && (
@@ -52,22 +54,24 @@ const Sidebar = (props: Props) => {
             setIsSidebarOpen(true);
           }}
         >
-          <Menu iconShape="square">
-            <SubMenu
-              icon={<LocalOfferOutlinedIcon />}
-              onClick={() => {
-                setIsSidebarOpen(true);
-                setCollapse(false);
-              }}
-            ></SubMenu>
-            <SubMenu
-              icon={<PeopleAltOutlinedIcon />}
-              onClick={() => {
-                setIsSidebarOpen(true);
-                setCollapse(false);
-              }}
-            ></SubMenu>
-          </Menu>
+          <div className={isSidebarOpen ? 'displayNone' : 'display-collapse'}>
+            <Menu iconShape="square">
+              <SubMenu
+                icon={<LocalOfferOutlinedIcon />}
+                onClick={() => {
+                  setIsSidebarOpen(true);
+                  setCollapse(false);
+                }}
+              ></SubMenu>
+              <SubMenu
+                icon={<PeopleAltOutlinedIcon />}
+                onClick={() => {
+                  setIsSidebarOpen(true);
+                  setCollapse(false);
+                }}
+              ></SubMenu>
+            </Menu>
+          </div>
         </ProSidebar>
       )}
     </div>

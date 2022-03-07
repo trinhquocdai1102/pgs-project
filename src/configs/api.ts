@@ -2,27 +2,21 @@ import { APIHost } from '../utils/constants';
 
 enum APIService {
   auth,
-  protected,
   public,
 }
 
 function getBaseUrl(service: APIService) {
   if (service === APIService.auth) {
-    return `${APIHost}/auth`;
-  } else if (service === APIService.protected) {
-    return `${APIHost}/protected`;
+    return `${APIHost}/apiAdmin`;
   } else if (service === APIService.public) {
-    return `${APIHost}`;
+    return `${APIHost}/api`;
   }
-
   return '';
 }
 
 export const API_PATHS = {
-  signIn: `${getBaseUrl(APIService.auth)}/login`,
-  register: `${getBaseUrl(APIService.auth)}/register`,
-  listItem: 'https://jsonplaceholder.typicode.com/photos',
-  userProfile: `${getBaseUrl(APIService.public)}/user`,
-  location: `${getBaseUrl(APIService.public)}/location`,
-  productList: 'https://api.gearfocus.div4.pgtest.co/api/products/list',
+  signIn: `${getBaseUrl(APIService.public)}/authentication/login`,
+  productList: `${getBaseUrl(APIService.public)}/products/list`,
+  categoryList: `${getBaseUrl(APIService.public)}/categories/list`,
+  vendorList: `${getBaseUrl(APIService.public)}/products/list`,
 };

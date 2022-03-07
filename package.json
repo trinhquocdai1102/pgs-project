@@ -5,7 +5,9 @@
     "dependencies": {
         "@emotion/react": "^11.8.1",
         "@emotion/styled": "^11.8.1",
+        "@hookform/resolvers": "^2.8.8",
         "@material-ui/core": "^4.12.3",
+        "@material-ui/styles": "^4.11.4",
         "@mui/icons-material": "^5.4.1",
         "@mui/material": "^5.4.3",
         "@mui/x-data-grid": "^5.5.1",
@@ -30,6 +32,7 @@
         "react-csv": "^2.2.2",
         "react-dom": "^17.0.2",
         "react-easy-crop": "^4.0.2",
+        "react-hook-form": "^7.27.1",
         "react-icons": "^4.3.1",
         "react-image-crop": "^9.1.1",
         "react-intl": "^5.20.10",
@@ -45,7 +48,8 @@
         "smoothscroll-polyfill": "^0.4.4",
         "typesafe-actions": "^5.1.0",
         "typescript": "^4.5.5",
-        "web-vitals": "^1.0.1"
+        "web-vitals": "^1.0.1",
+        "yup": "^0.32.11"
     },
     "scripts": {
         "start": "react-scripts start",
