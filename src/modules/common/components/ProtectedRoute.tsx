@@ -1,8 +1,8 @@
 import React from 'react';
-import { Redirect, Route, RouteProps } from 'react-router-dom';
-import { ROUTES } from '../../../configs/routes';
 import Cookies from 'js-cookie';
+import { ROUTES } from '../../../configs/routes';
 import { ACCESS_TOKEN_KEY } from '../../../utils/constants';
+import { Redirect, Route, RouteProps } from 'react-router-dom';
 
 interface Props extends RouteProps {}
 

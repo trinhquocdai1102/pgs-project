@@ -8,6 +8,36 @@
   --sidebarColor: #323259;
   --bgColor: #13132b;
   --buttonColor: #b18aff;
+  --addInputPageColor: #252547;
+}
+
+/* Common CSS */
+.separated-space {
+  display: block;
+  height: 20px;
+  background: #323259;
+  margin-right: -30px;
+  margin-left: -45px;
+  box-shadow: inset 0 5px 5px -5px rgb(0 0 0 / 75%);
+  z-index: 11;
+}
+
+.filter-select-product.remove-icon-dropdown {
+  background-image: none !important;
+}
+
+.filter-select-product.remove-icon-dropdown svg {
+  display: none !important;
+}
+
+.add-parts-title {
+  margin: 16px 0;
+  font-size: 26px;
+  font-weight: normal;
+}
+
+.button {
+  cursor: pointer;
 }
 
 ::-webkit-scrollbar {
@@ -28,12 +58,55 @@ button[disabled] {
   opacity: 0.5;
 }
 
+.remove-icon-delete img {
+  display: none !important;
+}
+
+.filter-select-product .icon_down_dir {
+  display: none !important;
+}
+
+.singleSelect .closeIcon {
+  display: none !important;
+}
+
 .MuiBox-root.css-i9gxme {
   margin-bottom: 0 !important;
 }
 
 .borderTop {
   border-top: 1px solid var(--bgColor);
+}
+
+.add-input::-webkit-outer-spin-button,
+.add-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+.filter-input.border-highlight,
+.filter-select-product.border-highlight {
+  border-color: #a16eff !important;
+}
+
+.remove-icon-calendar[type='date']::-webkit-inner-spin-button,
+.remove-icon-calendar[type='date']::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
+}
+
+.add-input-custom-icon.add-input {
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  background-image: url(https://www.freeiconspng.com/thumbs/white-arrow-png/white-down-arrow-png-2.png);
+  background-position: 80%;
+  background-size: 16px;
+  background-repeat: no-repeat;
+  padding: 0 0 0 20px;
 }
 
 .change-to-input.bg-fff,
@@ -69,6 +142,22 @@ button[disabled] {
 ul {
   padding: 0;
   margin: 0;
+}
+
+/* .MuiList-root[role='listbox'] {
+  padding: 4px 20px !important;
+  background-color: #b18aff !important;
+} */
+
+.MuiList-root[aria-labelledby='filter-options'] {
+  padding: 4px 20px !important;
+  background-color: var(--sidebarColor) !important;
+  border: 1px solid #13132b;
+  border-radius: 4px;
+}
+
+.filter-form .css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root.Mui-focused {
+  color: #fff !important;
 }
 
 .borderNone {
@@ -185,13 +274,15 @@ ul {
   border-radius: 4px;
 }
 
-.filter-select-product {
+.add-select-custom-icon,
+.filter-select-product,
+.add-icon-collapse {
   -webkit-appearance: none !important;
   -moz-appearance: none !important;
-  background-image: url(https://www.freeiconspng.com/thumbs/white-arrow-png/white-down-arrow-png-2.png);
-  background-position: 94%;
-  background-size: 16px;
-  background-repeat: no-repeat;
+  background-image: url(https://www.freeiconspng.com/thumbs/white-arrow-png/white-down-arrow-png-2.png) !important;
+  background-position: 98% !important;
+  background-size: 16px !important;
+  background-repeat: no-repeat !important;
 }
 
 .filter-select-availability {
@@ -201,6 +292,11 @@ ul {
 .filter-input:hover,
 .filter-select-product:hover {
   background: #1b1b38 !important;
+  border-color: var(--bgColor) !important;
+}
+
+.filter-select-product.multiSelectContainer input {
+  border-radius: 4px !important;
 }
 
 .filter-input[id='vendor']:hover {
@@ -228,12 +324,17 @@ ul {
   bottom: -138px;
 }
 
+.btn-collapse-filter.filter-open.btn-open-filter-user {
+  bottom: -298px;
+}
+
 .filter-input::-webkit-input-placeholder {
   color: #fff;
 }
 
 .btn-collapse-filter svg {
-  font-size: 28px !important;
+  color: #4cc9f0 !important;
+  font-size: 24px !important;
   transition: all 1s;
 }
 
@@ -257,6 +358,14 @@ ul {
   gap: 20px;
 }
 
+.hidden-search-item .optionListContainer span[class='notFound'] {
+  margin-top: 0px;
+}
+
+.filter-select-product.multiSelectContainer input {
+  margin-top: 1px;
+}
+
 .hidden-search-item > div > div {
   margin-bottom: 6px;
   display: flex;
@@ -270,6 +379,22 @@ ul {
 
 .hidden-search-item:first-child {
   align-items: unset;
+}
+
+.hidden-search-item.hidden-search-filter-user {
+  width: 36%;
+  display: block !important;
+  padding: 0 !important;
+}
+
+.hidden-search-filter-user .MuiList-padding.MuiList-root {
+  padding: 0 !important;
+}
+
+.hidden-search-filter-item {
+  display: flex;
+  gap: 20px;
+  justify-content: left !important;
 }
 
 .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
@@ -293,6 +418,18 @@ ul {
 
 .MuiAutocomplete-root.filter-input.css-18gspv4-MuiAutocomplete-root {
   margin: 0 !important;
+}
+
+.dot-open-search-box {
+  position: absolute;
+  font-size: 16px;
+  color: #fff;
+  bottom: -5px;
+}
+
+.multiSelectContainer input::placeholder {
+  color: #fff !important;
+  opacity: 1;
 }
 
 /* End: Form CSS */
@@ -325,6 +462,11 @@ ul {
 .table-data td input {
   vertical-align: middle !important;
   color: #fff !important;
+}
+
+.table-data .table-delete-button:hover svg[data-testid='DeleteIcon'] {
+  color: #000 !important;
+  opacity: 0.9;
 }
 
 input[type='checkbox'],
@@ -432,95 +574,329 @@ input[type='radio'] {
 }
 /* End: Table CSS */
 
-/* Begin: User Information CSS */
-.user-info-page {
-  background-color: #ebebeb;
-  width: 92vw;
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 20px 4%;
-  max-height: 800px;
-  height: 80vh;
-  border-radius: 4px;
+/* Begin: Add Product CSS */
+.add-header-title {
+  font-size: 32px;
+  margin: 10px 5px 48px;
+  font-weight: normal;
 }
 
-.user-avatar {
-  position: relative;
-  width: 160px;
-  height: 160px;
+.add-header-redirect {
+  color: #000 !important;
+  background-color: #fff !important;
   border-radius: 50% !important;
-  overflow: hidden;
-  margin: 0 auto 32px;
+  width: 32px !important;
+  height: 32px !important;
+  min-width: unset !important;
+  padding: 0 !important;
+  margin: 0 0 12px !important;
 }
 
-.user-avatar img {
-  width: 100%;
-  height: 100%;
-  transition: all 1.2s;
+.add-form {
+  color: #fff;
+  z-index: 0;
 }
 
-.user-avatar:hover {
-  cursor: pointer;
+.add-form .add-input.hover-none:hover {
+  background: var(--addInputPageColor) !important;
+  background-color: var(--addInputPageColor) !important;
+  opacity: unset !important;
 }
 
-.user-avatar:hover img {
-  transform: scale(1.1);
-  opacity: 0.5;
-}
-
-.user-avatar:hover .user-avatar-detail {
-  display: block !important;
-}
-
-.user-avatar input {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-}
-
-.user-avatar-detail {
-  position: absolute;
-  display: none;
-  top: 32%;
-  left: 11%;
-  font-size: 20px;
-  width: 80%;
-}
-
-.user-info-list {
-  max-width: 400px;
-}
-
-.user-info-list > div {
-  margin: 40px 0;
-  text-align: left;
-}
-
-.user-info-list label {
-  font-size: 20px;
-}
-
-.user-info-list input,
-.user-info-list div {
-  font-size: 16px;
-}
-
-.MuiFormControl-root {
+.add-form ul {
+  list-style: none;
+  padding: 0 !important;
   margin: 0 !important;
 }
 
-.MuiMenuItem-root {
-  font-size: 14px !important;
+.option.selected {
+  background-color: var(--buttonColor) !important;
 }
 
-.user-info-input {
-  width: 200px;
-  padding: 8px;
+.add-item {
+  width: 60%;
+  max-width: 400px;
 }
 
-/* End: User Information CSS */
+.add-item .css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root {
+  color: #fff !important;
+  font-size: 15px !important;
+  font-weight: bold !important;
+}
+
+.add-item
+  .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+  padding-left: 0 !important;
+  padding-right: 4px !important;
+}
+
+.add-item svg {
+  margin-right: 20px;
+}
+
+.add-box {
+  display: flex;
+  gap: 28px;
+  margin: 24px 0;
+}
+
+.add-box .add-input[name^='shipping'] {
+  width: 44% !important;
+}
+.add-box .add-input[name='shipping[0].price'] {
+  width: 100% !important;
+}
+
+.add-input,
+.multiselect-option-custom .search-wrapper.searchWrapper {
+  width: 100% !important;
+  padding: 0 40px 0 15px;
+  min-height: 40px;
+  outline: none !important;
+  background-color: var(--addInputPageColor);
+  border-radius: 8px;
+  color: #fff;
+  font-size: 15px !important;
+  border: 1px solid #13132b;
+}
+
+.add-category-option-custom.multiselect-option-custom .search-wrapper.searchWrapper,
+.add-category-option-custom.multiselect-option-custom > div,
+.add-category-option-custom.multiselect-option-custom {
+  min-height: 32px !important;
+}
+
+.multiselect-option-custom,
+.multiselect-option-custom .search-wrapper.searchWrapper {
+  padding: 0 !important;
+}
+
+.multiselect-option-custom .search-wrapper.searchWrapper .chip {
+  margin: 0 8px 8px 0 !important;
+  height: 24px !important;
+}
+
+.add-item .css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root > div[aria-haspopup='listbox'] {
+  padding: 0 !important;
+}
+
+.multiselect-option-custom .optionContainer {
+  color: #000 !important;
+}
+
+.multiselect-option-custom .optionContainer .highlightOption {
+  background-color: #fff !important;
+  color: #000 !important;
+}
+
+.multiselect-option-custom .optionContainer .highlightOption:hover,
+.multiselect-option-custom .optionContainer .option:hover {
+  background-color: #f5faff !important;
+  color: #333 !important;
+}
+
+.multiselect-option-custom .search-wrapper.searchWrapper span {
+  border-radius: 2px !important;
+  background-color: var(--buttonColor) !important;
+}
+
+.multiselect-option-custom .search-wrapper.searchWrapper span .custom-close {
+  font-size: 18px;
+}
+
+.multiselect-option-custom .search-wrapper.searchWrapper span .custom-close svg {
+  margin: 0 0 0 8px !important;
+  padding-left: 8px;
+  border-left: 1px dashed #fff;
+}
+
+.multiselect-option-custom .search-wrapper.searchWrapper span .custom-close svg:hover {
+  cursor: pointer;
+}
+
+.add-memberships-option-custom {
+  max-width: 400px !important;
+}
+
+.add-memberships-option-custom.multiSelectContainer ul {
+  border-color: var(--buttonColor);
+}
+
+.add-memberships-option-custom .search-wrapper.searchWrapper {
+  height: 40px !important;
+  max-width: 100% !important;
+}
+
+.add-memberships-option-custom .search-wrapper.searchWrapper .chip {
+  background-color: unset !important;
+  font-size: 15px !important;
+  display: flex !important;
+  align-items: center !important;
+  margin: 0 !important;
+  height: 40px !important;
+  padding: 7px 36px 8px 16px !important;
+}
+
+.add-memberships-option-custom .search-wrapper.searchWrapper .chip .icon_cancel.closeIcon {
+  display: none !important;
+}
+
+.add-memberships-option-custom .optionListContainer {
+  margin: 12px 0 0 0 !important;
+  height: 38px !important;
+}
+
+.add-memberships-option-custom .optionContainer .option {
+  background-color: var(--sidebarColor) !important;
+  color: #fff !important;
+}
+
+.add-memberships-option-custom .optionContainer .option .highlightOption {
+  background-color: var(--buttonColor) !important;
+}
+
+.add-memberships-option-custom .optionContainer .option:hover {
+  background: #323259 !important;
+  color: #fff !important;
+}
+
+.add-memberships-option-custom .optionListContainer .option {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  gap: 8px;
+  height: 38px;
+}
+
+.add-memberships-option-custom .optionListContainer .option input {
+  background: var(--sidebarColor) !important;
+  width: 20px !important;
+  height: 24px !important;
+}
+
+.multiselect-option-custom input {
+  padding: 0 40px 0 15px;
+  min-height: 32px !important;
+  margin: 0 !important;
+  width: 100%;
+  color: #fff;
+}
+
+.add-input:hover {
+  background-color: #1b1b38;
+  border: 1px solid #a16eff;
+}
+
+.add-input-hover:hover {
+  background-color: #1b1b38;
+}
+
+.add-button {
+  position: relative;
+}
+
+.add-button,
+.add-hidden-button {
+  text-decoration: none !important;
+  text-transform: none !important;
+  justify-content: left !important;
+  background: var(--sidebarColor) !important;
+  color: #fff !important;
+  font-weight: bold !important;
+  z-index: 1;
+  padding: 0 !important;
+}
+
+.add-hidden-button {
+  background: #b18aff !important;
+  position: absolute !important;
+  bottom: -44px;
+}
+
+.add-input .toolbarClassName {
+  background-color: #ccc;
+  padding: 10px !important;
+  color: #000 !important;
+}
+
+.add-condition-option {
+  color: #fff !important;
+  font-size: 15px !important;
+  font-weight: bold !important;
+  height: 32px !important;
+}
+
+.add-condition-option.css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root.Mui-selected[data-value] {
+  background-color: transparent !important;
+}
+
+.add-image-box {
+  border: 1px dashed #ccc !important;
+}
+
+.add-image-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 122px !important;
+  height: 124px !important;
+  position: relative;
+}
+
+.add-image-box svg {
+  font-size: 68px !important;
+}
+
+.border-camera-icon {
+  position: absolute;
+  height: 5px;
+  width: 60px;
+  background: #b18aff !important;
+  border-radius: 4px;
+  bottom: 36px;
+}
+
+.editorClassName {
+  padding: 4px 8px;
+  color: #fff !important;
+  border: 1px solid #fff !important;
+}
+
+.wrapperClassName .rdw-editor-toolbar {
+  margin: 0 !important;
+  background: #f5f5f5 !important;
+  color: #000 !important;
+}
+
+.editorClassName .public-DraftStyleDefault-block.public-DraftStyleDefault-ltr {
+  margin: 0 !important;
+}
+
+.toolbarClassName .rdw-option-wrapper[title='Strikethrough'],
+.toolbarClassName .rdw-option-wrapper[title='Monospace'],
+.toolbarClassName .rdw-option-wrapper[title='Superscript'],
+.toolbarClassName .rdw-option-wrapper[title='Subscript'],
+.toolbarClassName .rdw-option-wrapper[title='Indent'],
+.toolbarClassName .rdw-option-wrapper[title='Outdent'],
+.toolbarClassName .rdw-option-wrapper[title='Image'],
+.toolbarClassName .rdw-option-wrapper[title='Link'],
+.toolbarClassName .rdw-option-wrapper[title='Unlink'],
+.toolbarClassName .rdw-option-wrapper[title='Embedded'] {
+  display: none !important;
+}
+
+.add-item .react-datepicker__input-container {
+  width: 101%;
+}
+
+.custom-date-picker {
+  border-color: #a16eff;
+  margin-left: -4px;
+  margin-right: -4px;
+  border-radius: 4px;
+}
+
+/* End: Add Product CSS */
 
 /* Begin: Submit button CSS */
 .submit-item-btn {
@@ -569,6 +945,60 @@ input[type='radio'] {
 .btn-table-common:hover {
   color: #212529 !important;
 }
+
+.detail-tab-btn {
+  border-color: hsla(0, 0%, 100%, 0.2) !important;
+}
+
+.detail-tab-btn .css-1h9z7r5-MuiButtonBase-root-MuiTab-root,
+.detail-sub-tab-btn .css-1h9z7r5-MuiButtonBase-root-MuiTab-root {
+  padding: 8px 16px 0 !important;
+  text-transform: none !important;
+  min-width: unset !important;
+  max-height: 32px !important;
+}
+
+.detail-tab-btn .css-1h9z7r5-MuiButtonBase-root-MuiTab-root {
+  font-weight: bold !important;
+  color: #b4b4db !important;
+  font-size: 14px !important;
+}
+
+.detail-tab-btn .css-1h9z7r5-MuiButtonBase-root-MuiTab-root.Mui-selected {
+  color: var(--buttonColor) !important;
+}
+
+.detail-sub-tab-btn {
+  border: none !important;
+}
+
+.detail-sub-tab-btn .css-heg063-MuiTabs-flexContainer {
+  border-bottom: 1px solid hsla(0, 0%, 100%, 0.2) !important;
+}
+
+.detail-sub-tab-btn .css-1h9z7r5-MuiButtonBase-root-MuiTab-root {
+  color: #fff !important;
+  font-size: 15px !important;
+  padding-bottom: 12px !important;
+}
+
+.detail-sub-tab-btn .MuiTabs-indicator.css-1aquho2-MuiTabs-indicator[style^='left: 0px'] {
+  margin: 0 48px !important;
+}
+
+.detail-sub-tab-btn .MuiTabs-indicator.css-1aquho2-MuiTabs-indicator {
+  margin: 0 80px !important;
+}
+
+.detail-sub-tab-btn .detail-sub-tab-second-button {
+  color: var(--buttonColor) !important;
+}
+
+.add-file-sub-btn:hover {
+  background: var(--buttonColor) !important;
+  color: #fff !important;
+}
+
 /* End: Button CSS*/
 
 /* .backToTop span {
@@ -665,6 +1095,10 @@ input[type='radio'] {
   width: 120px;
   height: 48px;
   border-radius: 4px;
+}
+
+.modal-button a {
+  text-decoration: none !important;
 }
 
 .btn-modal-yes,

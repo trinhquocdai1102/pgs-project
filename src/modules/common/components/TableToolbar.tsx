@@ -4,6 +4,7 @@ import Typography from '@mui/material/Typography';
 
 interface Props {
   numSelected: number;
+  numDelete: number;
 }
 
 const TableToolbar = (props: Props) => {

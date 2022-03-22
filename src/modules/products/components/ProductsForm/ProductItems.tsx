@@ -1,38 +1,45 @@
 import React, { useState } from 'react';
 import moment from 'moment';
-import { IProducts } from '../../../models/products';
-import PowerSettingsNewOutlinedIcon from '@mui/icons-material/PowerSettingsNewOutlined';
-import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from 'react-router-dom';
+import { Modal, TableCell } from '@mui/material';
 import { Button, TableRow } from '@mui/material';
-import { TableCell } from '@mui/material';
-import { MakeStylesCheckBox } from '../../common/components/MakeStylesMUI';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { IProducts } from '../../../../models/products';
+import { MakeStylesCheckBox } from '../../../common/components/MakeStylesCheckBox';
+import PowerSettingsNewOutlinedIcon from '@mui/icons-material/PowerSettingsNewOutlined';
+import { ROUTES } from '../../../../configs/routes';
 
 interface Props {
+  labelId: any;
+  index: number;
   product: IProducts;
   isOpacityAll: boolean;
-  isItemSelected: any;
-  labelId: any;
-  isItemDelete: any;
-  numSelected: number;
-  numbDelete: number;
   handleSelectSingle(id: string): void;
   handleChooseToDelete(id: string): void;
-  setActiveSaveButton: any;
+  handleClickToUpdate(id: string, enable: boolean): void;
+  handleChangeValue(data: { price: string; amount: string; id: string }, index: number): void;
 }
 
 const ProductItems = (props: Props) => {
   const {
+    index,
     product,
-    handleSelectSingle,
-    isOpacityAll,
-    isItemSelected,
     labelId,
+    isOpacityAll,
+    handleChangeValue,
+    handleSelectSingle,
+    handleClickToUpdate,
     handleChooseToDelete,
-    setActiveSaveButton,
   } = props;
   const [changeBg, setChangeBg] = useState(true);
   const [isOpacity, setOpacity] = useState(false);
+  const [openModal, setOpenModal] = React.useState(false);
+
+  const [inputValue, setInputValue] = React.useState({
+    price: product.price,
+    amount: product.amount,
+    id: product.id,
+  });
 
   return (
     <>
@@ -58,7 +65,7 @@ const ProductItems = (props: Props) => {
                   handleSelectSingle(product.id);
                 }}
                 color="primary"
-                checked={isItemSelected}
+                checked={product.checked}
                 inputProps={{
                   'aria-labelledby': labelId,
                 }}
@@ -80,6 +87,9 @@ const ProductItems = (props: Props) => {
                   maxWidth: '16px',
                   height: '16px',
                 }}
+                onClick={() => {
+                  setOpenModal(true);
+                }}
               >
                 <PowerSettingsNewOutlinedIcon
                   style={{
@@ -96,7 +106,7 @@ const ProductItems = (props: Props) => {
         </TableCell>
         <TableCell>{product?.sku}</TableCell>
         <TableCell>
-          <Link to="">{product?.name}</Link>
+          <Link to={`${ROUTES.detailProduct}/${product.id}`}>{product?.name}</Link>
         </TableCell>
         <TableCell>{product?.category}</TableCell>
         <TableCell>
@@ -134,12 +144,17 @@ const ProductItems = (props: Props) => {
               {changeBg === true && <span>$</span>}
               <input
                 type="number"
-                defaultValue={product?.price}
+                value={inputValue.price}
                 onFocus={() => setChangeBg(false)}
-                onBlur={() => setChangeBg(true)}
-                onChange={() => {
-                  setActiveSaveButton(true);
+                onBlur={() => {
+                  setChangeBg(true);
+                  handleChangeValue(inputValue, index);
                 }}
+                onChange={(e) =>
+                  setInputValue((prev) => {
+                    return { ...prev, price: e.target.value };
+                  })
+                }
               />
             </div>
           </div>
@@ -148,16 +163,21 @@ const ProductItems = (props: Props) => {
           <input
             type="number"
             className={changeBg ? 'change-to-input input-default' : 'change-to-input bg-fff'}
-            defaultValue={product?.amount}
+            value={inputValue.amount}
             onFocus={() => setChangeBg(false)}
-            onBlur={() => setChangeBg(true)}
-            onChange={() => {
-              setActiveSaveButton(true);
+            onBlur={() => {
+              setChangeBg(true);
+              handleChangeValue(inputValue, index);
             }}
+            onChange={(e) =>
+              setInputValue((prev) => {
+                return { ...prev, amount: e.target.value };
+              })
+            }
           />
         </TableCell>
         <TableCell>
-          <Link to="" style={{ width: '10%' }}>
+          <Link to={`${ROUTES.detailUser}/${product.id}`} style={{ width: '10%' }}>
             {product?.vendor}
           </Link>
         </TableCell>
@@ -168,16 +188,17 @@ const ProductItems = (props: Props) => {
               value={product?.id}
               variant="text"
               style={{
-                background: '#b18aff',
                 display: 'flex',
                 width: '36px',
                 height: '36px',
-                justifyContent: 'center',
                 borderRadius: '4px',
+                background: '#b18aff',
+                justifyContent: 'center',
               }}
               onClick={() => {
-                handleChooseToDelete(product?.id);
                 setOpacity(!isOpacity);
+                // handleDeleteItem(product?.id);
+                handleChooseToDelete(product?.id);
               }}
             >
               <DeleteIcon style={{ fontSize: '24px', color: '#fff' }} />
@@ -185,6 +206,46 @@ const ProductItems = (props: Props) => {
           </div>
         </TableCell>
       </TableRow>
+      <Modal
+        open={openModal}
+        onClose={() => setOpenModal(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <div className="confirm-modal">
+          <div
+            className="behind-modal"
+            onClick={() => {
+              setOpenModal(false);
+            }}
+          ></div>
+          <div className="confirm-modal-content">
+            <div className="modal-content-text">
+              <div>Confirm Update</div>
+              <div>Do you want to update this product?</div>
+            </div>
+            <div className="modal-button">
+              <Button
+                className="btn-table-common btn-modal-yes"
+                onClick={() => {
+                  setOpenModal(false);
+                  handleClickToUpdate(product.id, !(product.enabled == '1'));
+                }}
+              >
+                Yes
+              </Button>
+              <Button
+                className="btn-table-common btn-modal-no"
+                onClick={() => {
+                  setOpenModal(false);
+                }}
+              >
+                No
+              </Button>
+            </div>
+          </div>
+        </div>
+      </Modal>
     </>
   );
 };

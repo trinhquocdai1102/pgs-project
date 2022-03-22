@@ -1,11 +1,11 @@
 export const ROUTES = {
   home: '/home',
-  contact: '/contact',
   login: '/login',
-  register: '/register',
-  listItem: '/listItem',
-  userInfo: '/userInfo',
-  transList: '/transList',
-  detailItem: '/detailItem',
+  contact: '/contact',
   products: '/products',
+  addProduct: '/addProduct',
+  detailProduct: '/detailProduct',
+  users: '/users',
+  addUser: '/addUser',
+  detailUser: '/detailUser',
 };

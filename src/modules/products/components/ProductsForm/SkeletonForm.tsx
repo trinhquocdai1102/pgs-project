@@ -24,7 +24,7 @@ const SkeletonForm = (props: Props) => {
               backdropFilter: 'blur(10px)',
               background: 'var(--sidebarColor)',
               gap: '1%',
-              padding: '2px 8px',
+              padding: '6px 12px',
             }}
           >
             <Skeleton variant="text" style={{ height: '62px', width: '8%' }} />
@@ -33,7 +33,7 @@ const SkeletonForm = (props: Props) => {
             <Skeleton variant="text" style={{ height: '62px', width: '12%' }} />
             <Skeleton variant="text" style={{ height: '62px', width: '9%' }} />
             <Skeleton variant="text" style={{ height: '62px', width: '19%' }} />
-            <Skeleton variant="text" style={{ height: '62px', width: '8%' }} />
+            <Skeleton variant="text" style={{ height: '62px', width: '10%' }} />
             <Skeleton variant="text" style={{ height: '62px', width: '4%', position: 'absolute', right: '20px' }} />
           </div>
         );

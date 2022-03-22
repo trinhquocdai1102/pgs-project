@@ -37,6 +37,9 @@
   "male": "Nam",
   "female": "Nữ",
   "other": "Khác",
-  "user-info": "Thông tin cá nhân",
-  "product": "Danh sách sản phẩm"
+  "product": "Danh sách sản phẩm",
+  "addProduct": "Thêm sản phẩm",
+  "updateProduct": "Cập nhật sản phẩm",
+  "user": "Danh sách người dùng",
+  "editUser": "Cập nhật thông tin"
 }

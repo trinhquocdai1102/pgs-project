@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
-import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import { Link } from 'react-router-dom';
-import { ProSidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import 'react-pro-sidebar/dist/css/styles.css';
+import { ProSidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
+import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
+import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
 
 interface Props {
   isSidebarOpen: boolean;
@@ -12,37 +12,50 @@ interface Props {
 
 const Sidebar = (props: Props) => {
   const { isSidebarOpen, setIsSidebarOpen } = props;
-  const [isCollapse, setCollapse] = useState(true);
-  const handleCollapse = () => {
-    setCollapse(!isCollapse);
-  };
+
+  const sidebarItem = [
+    {
+      name: 'Category',
+      icon: LocalOfferOutlinedIcon,
+      collapse: false,
+      subItem: {
+        name: 'Products',
+        link: '/products',
+      },
+    },
+    {
+      name: 'User',
+      icon: PeopleAltOutlinedIcon,
+      collapse: false,
+      subItem: {
+        name: 'User list',
+        link: '/users',
+      },
+    },
+  ];
 
   return (
     <div>
       {isSidebarOpen === true && (
-        <ProSidebar className="sidebar">
+        <ProSidebar className="sidebar" style={{ boxShadow: isSidebarOpen && 'none' }}>
           <div className={isSidebarOpen ? 'display-full' : 'displayNone'}>
             <Menu iconShape="square" style={{ backgroundColor: 'var(--sidebarColor)' }}>
-              <SubMenu
-                title="Category"
-                icon={<LocalOfferOutlinedIcon />}
-                onClick={() => handleCollapse()}
-                className={isCollapse ? 'w100' : 'w90'}
-              >
-                <MenuItem>
-                  <Link to="/products">Products</Link>
-                </MenuItem>
-              </SubMenu>
-              <SubMenu
-                title="User"
-                icon={<PeopleAltOutlinedIcon />}
-                onClick={() => handleCollapse()}
-                className={isCollapse ? 'w100' : 'w90'}
-              >
-                <MenuItem>
-                  <Link to="/user-list">User list</Link>
-                </MenuItem>
-              </SubMenu>
+              {sidebarItem?.map((item, index) => {
+                const [isCollapse, setCollapse] = useState(true);
+                return (
+                  <SubMenu
+                    key={index}
+                    title={item.name}
+                    icon={<item.icon />}
+                    onClick={() => setCollapse(!isCollapse)}
+                    className={isCollapse ? 'w100' : 'w90'}
+                  >
+                    <MenuItem>
+                      <Link to={item.subItem.link}>{item.subItem.name}</Link>
+                    </MenuItem>
+                  </SubMenu>
+                );
+              })}
             </Menu>
           </div>
         </ProSidebar>
@@ -56,20 +69,21 @@ const Sidebar = (props: Props) => {
         >
           <div className={isSidebarOpen ? 'displayNone' : 'display-collapse'}>
             <Menu iconShape="square">
-              <SubMenu
-                icon={<LocalOfferOutlinedIcon />}
-                onClick={() => {
-                  setIsSidebarOpen(true);
-                  setCollapse(false);
-                }}
-              ></SubMenu>
-              <SubMenu
-                icon={<PeopleAltOutlinedIcon />}
-                onClick={() => {
-                  setIsSidebarOpen(true);
-                  setCollapse(false);
-                }}
-              ></SubMenu>
+              {sidebarItem?.map((item, index) => {
+                return (
+                  <SubMenu
+                    key={index}
+                    icon={<item.icon />}
+                    onClick={() => {
+                      setIsSidebarOpen(true);
+                    }}
+                  >
+                    <MenuItem>
+                      <Link to={item.subItem.link}>{item.subItem.name}</Link>
+                    </MenuItem>
+                  </SubMenu>
+                );
+              })}
             </Menu>
           </div>
         </ProSidebar>

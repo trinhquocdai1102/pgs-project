@@ -1,12 +1,17 @@
 import React, { lazy, Suspense, useState } from 'react';
-import { Route, Switch, useLocation } from 'react-router-dom';
 import { ROUTES } from './configs/routes';
 import Navbar from './modules/common/components/Navbar';
+import Loading from './modules/common/components/Loading';
+import { Route, Switch, useLocation } from 'react-router-dom';
 import ProtectedRoute from './modules/common/components/ProtectedRoute';
-import CircularProgress from '@mui/material/CircularProgress';
 
 const LoginPage = lazy(() => import('./modules/auth/pages/LoginPage'));
+const UsersPage = lazy(() => import('./modules/users/pages/UsersPage'));
+const AddUserPage = lazy(() => import('./modules/users/pages/AddUserPage'));
+const UserDetailPage = lazy(() => import('./modules/users/pages/UserDetailPage'));
 const ProductsPage = lazy(() => import('./modules/products/pages/ProductsPage'));
+const AddProductPage = lazy(() => import('./modules/products/pages/AddProductPage'));
+const ProductDetailPage = lazy(() => import('./modules/products/pages/ProductDetailPage'));
 
 // interface Props {
 //     props: Props;
@@ -31,40 +36,45 @@ const ProductsPage = lazy(() => import('./modules/products/pages/ProductsPage'))
 // window.addEventListener('scroll', toggleVisible);
 
 export const Routes = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const location = useLocation();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
+  const handleOpenMenu = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
 
   return (
-    <Suspense
-      fallback={
-        <div
-          style={{
-            display: 'flex',
-            width: '100vw',
-            minHeight: '100vh',
-            margin: 'auto',
-            alignItems: ' center',
-            justifyContent: 'center',
-            backdropFilter: 'blur(10px)',
-            background: 'transparent',
-          }}
-        >
-          <CircularProgress
-            disableShrink
-            style={{
-              width: '80px',
-              height: '80px',
-            }}
-          />
-        </div>
-      }
-    >
-      <Navbar isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen}>
+    <Suspense fallback={<Loading />}>
+      <Navbar isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} handleOpenMenu={handleOpenMenu}>
         <Switch location={location}>
           <Route path={ROUTES.login} component={LoginPage} />
-          <Route path={ROUTES.products} render={(props) => <ProductsPage {...props} isSidebarOpen={isSidebarOpen} />} />
+          <ProtectedRoute
+            path={ROUTES.products}
+            render={(props) => <ProductsPage {...props} isSidebarOpen={isSidebarOpen} />}
+          />
+          <ProtectedRoute
+            path={`${ROUTES.detailProduct}/:id`}
+            render={(props) => <ProductDetailPage {...props} isSidebarOpen={isSidebarOpen} />}
+          />
+          <ProtectedRoute
+            path={ROUTES.addProduct}
+            render={(props) => <AddProductPage {...props} isSidebarOpen={isSidebarOpen} />}
+          />
+          <ProtectedRoute
+            path={ROUTES.users}
+            render={(props) => <UsersPage {...props} isSidebarOpen={isSidebarOpen} />}
+          />
+          <ProtectedRoute
+            path={ROUTES.addUser}
+            render={(props) => <AddUserPage {...props} isSidebarOpen={isSidebarOpen} />}
+          />
 
-          <ProtectedRoute path="/" component={ProductsPage} />
+          <ProtectedRoute
+            path={`${ROUTES.detailUser}/:id`}
+            render={(props) => <UserDetailPage {...props} isSidebarOpen={isSidebarOpen} />}
+          />
+
+          <ProtectedRoute path="/" render={(props) => <ProductsPage {...props} isSidebarOpen={isSidebarOpen} />} />
         </Switch>
       </Navbar>
     </Suspense>

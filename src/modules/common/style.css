@@ -21,17 +21,28 @@
   background-color: var(--sidebarColor);
 }
 
+/* .display-full,
+.display-collapse {
+  box-shadow: 0 4px 8px 0 #1a1f33 !important;
+} */
+
 .display-full .pro-inner-item {
-  padding: 0 16px !important;
+  padding: 0 20px !important;
 }
 
 .display-collapse {
   width: 60px;
   position: fixed;
+  height: 100vh;
+  background: var(--sidebarColor);
 }
 
 .display-collapse .pro-inner-item {
-  padding: 0 0 0 4px !important;
+  padding: 0 !important;
+}
+
+.w90 .pro-inner-item {
+  padding: 0 !important;
 }
 
 .display-collapse .pro-inner-item .pro-arrow-wrapper {
@@ -130,6 +141,8 @@
 
 .pro-sidebar {
   height: calc(100% - var(--navHeight)) !important;
+  min-width: unset !important;
+  width: 256px !important;
 }
 
 .pro-sidebar > .pro-sidebar-inner {
@@ -152,7 +165,7 @@
   font-size: 13px !important;
   min-height: 48px !important;
   background-color: var(--sidebarColor) !important;
-  border-bottom: 1px solid #000;
+  border-bottom: 1px solid #1b1b38;
 }
 
 .pro-sidebar .pro-menu .pro-menu-item.pro-sub-menu .pro-inner-list-item {
@@ -164,7 +177,7 @@
 }
 
 .pro-sidebar .pro-menu a {
-  padding-left: 44px;
+  padding-left: 46px;
 }
 
 /* Begin: Bottom Bar CSS */
@@ -173,9 +186,9 @@
   display: flex;
   bottom: 0;
   right: 0;
-  left: 272px;
+  left: 255px;
   margin: auto;
-  width: calc(100% - 338px);
+  width: calc(100% - 326px);
   line-height: 38px;
   padding: 0 36px;
   background-color: var(--sidebarColor);
@@ -185,8 +198,8 @@
 }
 
 .footer-bar-fixed.footer-bar-fixed-full {
-  left: 60px;
-  width: calc(100% - 130px);
+  left: 61px;
+  width: calc(100vw - 140px);
 }
 
 .footer-bar-content {
@@ -210,6 +223,12 @@
   min-width: 150px !important;
   max-height: 38px !important;
 }
+
+.footer-btn-add {
+  max-height: 35px !important;
+  border-radius: 6px !important;
+  font-size: 15px !important;
+}
 /* End: Bottom Bar CSS */
 
 /* Begin: Pagination CSS */
@@ -232,19 +251,25 @@
   background: var(--buttonColor) !important;
 }
 
-.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.MuiSelect-select[aria-labelledby='demo-simple-select-helper-label demo-simple-select-helper'] {
-  overflow: visible !important;
+.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.MuiSelect-select[aria-labelledby='pagination-select-helper-label demo-simple-select-helper'] {
   max-height: 32px !important;
   line-height: 32px !important;
   padding: 0 20px 0 0 !important;
-  min-width: 50px !important;
+  min-width: 80px !important;
   background: var(--buttonColor) !important;
   text-align: center !important;
 }
 
-.css-6hp17o-MuiList-root-MuiMenu-list[aria-labelledby='demo-simple-select-helper-label'] {
+.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.MuiSelect-select {
+  overflow: visible !important;
+}
+
+.css-6hp17o-MuiList-root-MuiMenu-list[aria-labelledby='pagination-select-helper-label'] {
   padding: 0 !important;
   background: var(--buttonColor) !important;
+  text-align: center !important;
+  min-width: 80px !important;
+  overflow: visible !important;
 }
 
 .css-1peecku-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root > div[aria-expanded='true'] {
@@ -256,20 +281,20 @@
   font-weight: bold !important;
 }
 
-.css-6hp17o-MuiList-root-MuiMenu-list[aria-labelledby='demo-simple-select-helper-label'] li:hover {
+.css-6hp17o-MuiList-root-MuiMenu-list[aria-labelledby='pagination-select-helper-label'] li:hover {
   opacity: 0.7 !important;
   background: #fff !important;
 }
-
-.css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root.Mui-selected {
+ul[aria-labelledby='pagination-select-helper-label']
+  .css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root.Mui-selected[data-value] {
   background: dodgerblue !important;
 }
 
-.css-1poimk-MuiPaper-root-MuiMenu-paper-MuiPaper-root-MuiPopover-paper[aria-labelledby='demo-simple-select-helper-label'] {
-  width: 60px !important;
+.css-1poimk-MuiPaper-root-MuiMenu-paper-MuiPaper-root-MuiPopover-paper[aria-labelledby='pagination-select-helper-label'] {
+  width: 80px !important;
 }
 
-.css-6hp17o-MuiList-root-MuiMenu-list[aria-labelledby='demo-simple-select-helper-label']
+.css-6hp17o-MuiList-root-MuiMenu-list[aria-labelledby='pagination-select-helper-label']
   .css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root {
   justify-content: center;
   padding: 2px !important;
@@ -296,7 +321,7 @@
   font-size: 20px !important;
 }
 
-.css-1poimk-MuiPaper-root-MuiMenu-paper-MuiPaper-root-MuiPopover-paper[aria-labelledby='demo-simple-select-helper-label'] {
+.css-1poimk-MuiPaper-root-MuiMenu-paper-MuiPaper-root-MuiPopover-paper[aria-labelledby='pagination-select-helper-label'] {
   top: 843px !important;
   border-radius: 0 !important;
 }

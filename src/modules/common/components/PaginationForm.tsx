@@ -2,16 +2,16 @@ import React, { useMemo } from 'react';
 import { FormControl, MenuItem, Pagination, Select, TableCell, Typography } from '@mui/material';
 
 interface Props {
+  colspan: number;
+  totalItem: number;
   currentPage: number;
   itemPerPage: number;
-  totalItem: number;
-  colspan: number;
-  handleChangePage(event: React.ChangeEvent<unknown>, page: number): void;
   handleChangItemPerPage(num: number): void;
+  handleChangePage(event: React.ChangeEvent<unknown>, page: number): void;
 }
 
 const PaginationForm = (props: Props) => {
-  const { currentPage, itemPerPage, totalItem, handleChangePage, handleChangItemPerPage, colspan } = props;
+  const { colspan, currentPage, itemPerPage, totalItem, handleChangePage, handleChangItemPerPage } = props;
   const optionItemPerPage = [10, 25, 50, 75, 100];
   const lastPage = useMemo(() => {
     return Math.ceil(totalItem / itemPerPage);
@@ -42,8 +42,7 @@ const PaginationForm = (props: Props) => {
             }}
           >
             <Select
-              labelId="demo-simple-select-helper-label"
-              id="demo-simple-select-helper"
+              labelId="pagination-select-helper-label"
               className="pagination-select"
               value={itemPerPage}
               label="itemPerPage"

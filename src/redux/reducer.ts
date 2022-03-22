@@ -3,13 +3,15 @@ import { History } from 'history';
 import { combineReducers } from 'redux';
 import authReducer, { AuthState } from '../modules/auth/redux/authReducer';
 import intlReducer, { IntlState } from '../modules/intl/redux/intlReducer';
-import productReducer, { ProductState } from '../modules/products/redux/productReducer';
+import snackbarReducer, { SnackbarState } from '../modules/common/redux/snackbarReducer';
+import navbarReducer, { NavbarState } from '../modules/common/redux/navbarReducer';
 
 export interface AppState {
   router: RouterState;
   intl: IntlState;
   profile: AuthState;
-  product: ProductState;
+  navbar: NavbarState;
+  snackbar: SnackbarState;
 }
 
 export default function createRootReducer(history: History) {
@@ -17,6 +19,7 @@ export default function createRootReducer(history: History) {
     router: connectRouter(history),
     intl: intlReducer,
     profile: authReducer,
-    product: productReducer,
+    navbar: navbarReducer,
+    snackbar: snackbarReducer,
   });
 }

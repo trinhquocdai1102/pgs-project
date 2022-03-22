@@ -1,5 +1,7 @@
+import Cookies from 'js-cookie';
 import { ActionType, createCustomAction, getType } from 'typesafe-actions';
 import { AuthToken, IUser } from '../../../models/user';
+import { ACCESS_TOKEN_KEY } from '../../../utils/constants';
 
 export interface AuthState {
   auth?: AuthToken;
@@ -13,19 +15,14 @@ export const setAuthorization = createCustomAction('auth/setAuthorization', (dat
 export const setUserInfo = createCustomAction('auth/setUserInfo', (data: IUser) => ({
   data,
 }));
-
-export const resetData = createCustomAction('auth/resetData', () => ({}));
-
-// const changNameUser = createCustomAction('user/changNameUser', (data: IUser) => {
-//   data;
-// });
+export const setLogoutUser = createCustomAction('auth/setLogoutUser', () => {});
 
 export const deleteTransItem = createCustomAction('auth/deleteItem', (data) => ({
   type: 'DELETE_ITEM',
   item: data,
 }));
 
-const actions = { setAuthorization, setUserInfo, resetData, deleteTransItem };
+const actions = { setAuthorization, setUserInfo, setLogoutUser };
 
 type Action = ActionType<typeof actions>;
 
@@ -35,10 +32,9 @@ export default function reducer(state: AuthState = {}, action: Action) {
       return { ...state, auth: action.data };
     case getType(setUserInfo):
       return { ...state, user: action.data };
-    case getType(resetData):
+    case getType(setLogoutUser):
+      Cookies.remove(ACCESS_TOKEN_KEY, { path: '/', domain: 'localhost' });
       return {};
-    case getType(deleteTransItem):
-      return { ...state, item: action.item };
     default:
       return state;
   }

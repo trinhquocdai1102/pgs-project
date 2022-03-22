@@ -1,49 +1,82 @@
-import React, { useState, FC } from 'react';
-import { ACCESS_TOKEN_KEY, APIHost, avatarFemaleDefault, avatarMaleDefault } from '../../../utils/constants';
-import Cookies from 'js-cookie';
+import React, { useState, FC, useEffect, useCallback } from 'react';
 import '../style.css';
-import { useHistory } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { AppState } from '../../../redux/reducer';
-import AppBar from '@mui/material/AppBar';
+import Sidebar from './Sidebar';
+import Cookies from 'js-cookie';
 import Box from '@mui/material/Box';
+import Menu from '@mui/material/Menu';
+import SnackbarForm from './SnackbarForm';
+import AppBar from '@mui/material/AppBar';
+import { useDispatch, useSelector } from 'react-redux';
 import Toolbar from '@mui/material/Toolbar';
+import Tooltip from '@mui/material/Tooltip';
+import { useHistory } from 'react-router-dom';
+import MenuItem from '@mui/material/MenuItem';
+import MenuIcon from '@mui/icons-material/Menu';
+import { AppState } from '../../../redux/reducer';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import Avatar from '@mui/material/Avatar';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
-import Tooltip from '@mui/material/Tooltip';
-import ArrowCircleDownOutlinedIcon from '@mui/icons-material/ArrowCircleDownOutlined';
+import { ACCESS_TOKEN_KEY } from '../../../utils/constants';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import WarningAmberOutlinedIcon from '@mui/icons-material/WarningAmberOutlined';
-import Sidebar from './Sidebar';
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+import ArrowCircleDownOutlinedIcon from '@mui/icons-material/ArrowCircleDownOutlined';
+import { replace } from 'connected-react-router';
+import { API_PATHS } from '../../../configs/api';
+import { ThunkDispatch } from 'redux-thunk';
+import { Action } from 'typesafe-actions';
+import { fetchThunk } from '../redux/thunk';
+import { setFieldData } from '../redux/navbarReducer';
+import { setLogoutUser } from '../../auth/redux/authReducer';
+import { ROUTES } from '../../../configs/routes';
 
 interface Props {
   isSidebarOpen: boolean;
   setIsSidebarOpen: any;
+  handleOpenMenu(): void;
 }
 
-const Navbar: FC<Props> = ({ children, isSidebarOpen, setIsSidebarOpen }) => {
+const Navbar: FC<Props> = ({ children, isSidebarOpen, setIsSidebarOpen, handleOpenMenu }) => {
+  const history = useHistory();
   const isLogin = Cookies.get(ACCESS_TOKEN_KEY);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
-  const history = useHistory();
+  const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
   const { user } = useSelector((state: AppState) => state.profile);
 
-  const handleOpenMenu = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
+  const fetchAllData = useCallback(async () => {
+    const dataInfo: { [key: string]: { url: string } } = {
+      vendor: {
+        url: API_PATHS.vendorList,
+      },
+      category: {
+        url: API_PATHS.categoryList,
+      },
+      brand: {
+        url: API_PATHS.brandList,
+      },
+      condition: {
+        url: API_PATHS.conditionList,
+      },
+      shipping: {
+        url: API_PATHS.shipping,
+      },
+    };
 
-  const checkGender = () => {
-    if (user?.gender === 'female') {
-      return avatarFemaleDefault;
-    } else {
-      return avatarMaleDefault;
-    }
-  };
-  const src = user?.avatar ? `${APIHost}/${user?.avatar}` : checkGender();
+    const promise = await Promise.all(
+      Object.keys(dataInfo)?.map((item) => {
+        return dispatch(fetchThunk(dataInfo[item].url, 'get'));
+      }),
+    );
+
+    const data = promise.reduce((result, cur, index) => {
+      result[Object.keys(dataInfo)[index]] = cur.data?.map((item: any) => ({
+        ...item,
+      }));
+      return result;
+    }, {} as any);
+
+    dispatch(setFieldData(data));
+  }, [dispatch]);
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -53,6 +86,19 @@ const Navbar: FC<Props> = ({ children, isSidebarOpen, setIsSidebarOpen }) => {
     setAnchorElUser(null);
   };
 
+  const handleLogout = () => {
+    if (Cookies.get(ACCESS_TOKEN_KEY)) {
+      dispatch(setLogoutUser());
+      dispatch(replace(ROUTES.login));
+    }
+    return;
+  };
+
+  useEffect(() => {
+    if (isLogin) {
+      fetchAllData();
+    }
+  }, [fetchAllData, isLogin]);
   return (
     <>
       <Box sx={{ flexGrow: 1 }} style={{ marginBottom: 'var(--navHeight)' }} className="top-navbar">
@@ -109,7 +155,7 @@ const Navbar: FC<Props> = ({ children, isSidebarOpen, setIsSidebarOpen }) => {
               <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="My profile">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar alt="my avatar" src={src} />
+                    <PersonOutlineOutlinedIcon style={{ color: '#b4b4db' }} />
                   </IconButton>
                 </Tooltip>
                 <Menu
@@ -141,11 +187,16 @@ const Navbar: FC<Props> = ({ children, isSidebarOpen, setIsSidebarOpen }) => {
                       >
                         My profile
                       </IconButton>
-                      <span style={{ fontSize: '15px', color: '#999' }}>{user?.email}</span>
+                      <span style={{ fontSize: '15px', color: '#999' }}>{user?.login}</span>
                     </Typography>
                   </MenuItem>
-                  <MenuItem onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{/* <LogoutForm /> */}</Typography>
+                  <MenuItem>
+                    <Typography
+                      onClick={handleLogout}
+                      style={{ fontSize: '14px', display: 'flex', color: '#222b45', textDecoration: 'none' }}
+                    >
+                      Logout
+                    </Typography>
                   </MenuItem>
                 </Menu>
               </Box>
@@ -157,6 +208,7 @@ const Navbar: FC<Props> = ({ children, isSidebarOpen, setIsSidebarOpen }) => {
           {children}
         </div>
       </Box>
+      <SnackbarForm />
     </>
   );
 };
