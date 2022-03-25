@@ -39,23 +39,25 @@ const Sidebar = (props: Props) => {
       {isSidebarOpen === true && (
         <ProSidebar className="sidebar" style={{ boxShadow: isSidebarOpen && 'none' }}>
           <div className={isSidebarOpen ? 'display-full' : 'displayNone'}>
-            <Menu iconShape="square" style={{ backgroundColor: 'var(--sidebarColor)' }}>
-              <MenuItem>Dashboard</MenuItem>
+            <Menu iconShape="square" style={{ backgroundColor: 'var(--sidebarColor)' }} popperArrow={true}>
               {sidebarItem?.map((item, index) => {
                 const [isCollapse, setCollapse] = useState(true);
                 return (
-                  <SubMenu
-                    key={index}
-                    icon={<item.icon />}
-                    onClick={() => setCollapse(!isCollapse)}
-                    className={isCollapse ? 'w100' : 'w90'}
-                  >
-                    <MenuItem>
-                      <NavLink activeClassName="sidebar-active" to={item.subItem.link}>
-                        {item.subItem.name}
-                      </NavLink>
-                    </MenuItem>
-                  </SubMenu>
+                  <>
+                    <SubMenu
+                      key={index}
+                      title={item.name}
+                      icon={<item.icon />}
+                      onClick={() => setCollapse(!isCollapse)}
+                      className={isCollapse ? 'w100' : 'w90'}
+                    >
+                      <MenuItem>
+                        <NavLink activeClassName="sidebar-active" to={item.subItem.link}>
+                          {item.subItem.name}
+                        </NavLink>
+                      </MenuItem>
+                    </SubMenu>
+                  </>
                 );
               })}
             </Menu>
