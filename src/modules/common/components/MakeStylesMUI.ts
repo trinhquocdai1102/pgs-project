@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
+import { createTheme } from '@mui/material';
 
 export const useStylesSwitch = makeStyles({
   root: {
@@ -73,4 +74,93 @@ export const useStylesOptionsCheckbox = makeStyles({
 
 export const useStylesFilterLabel = makeStyles({
   root: { color: '#fff', top: '-5px', fontWeight: 600, fontSize: '15px' },
+});
+
+export const autoCompleteTheme = createTheme({
+  components: {
+    MuiAutocomplete: {
+      styleOverrides: {
+        root: {
+          padding: '0',
+          input: {
+            width: '100% !important',
+            height: '40px !important',
+            padding: '0 15px !important',
+          },
+        },
+        clearIndicator: {
+          display: 'none',
+        },
+        popupIndicator: {
+          color: '#fff',
+        },
+        listbox: {
+          backgroundColor: 'var(--sidebarColor) !important',
+          width: '100% !important',
+          paddingTop: 0,
+        },
+        option: {
+          color: '#fff !important',
+          padding: '12px !important',
+          wordBreak: 'break-all',
+        },
+      },
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: { width: '100%' },
+      },
+    },
+  },
+});
+
+export const styleSelectMUI = createTheme({
+  components: {
+    MuiSelect: {
+      styleOverrides: {
+        select: {
+          border: '1px solid var(--bgColor)',
+          backgroundColor: 'var(--addInputPageColor)',
+          lineHeight: '40px',
+          padding: 0,
+          color: '#fff !important',
+        },
+        outlined: {
+          padding: '0 10px',
+        },
+        icon: {
+          color: '#fff !important',
+        },
+        nativeInput: {
+          minHeight: '40px',
+        },
+      },
+    },
+    MuiPaper: {
+      styleOverrides: {
+        root: { margin: '8px 0 0 -2px', maxHeight: '400px !important' },
+      },
+    },
+    MuiList: {
+      styleOverrides: {
+        root: {
+          padding: '0 !important',
+          minHeight: '40px',
+          backgroundColor: 'var(--addInputPageColor)',
+          color: '#fff',
+          border: '1px solid var(--bgColor)',
+        },
+      },
+    },
+    MuiMenuItem: {
+      styleOverrides: {
+        root: {
+          padding: '10px 14px !important',
+          '&.Mui-selected': {
+            backgroundColor: 'var(--buttonColor)',
+          },
+        },
+      },
+    },
+  },
 });

@@ -58,6 +58,7 @@ const LoginPage = () => {
           justifyContent: 'center',
           flexDirection: 'column',
           boxShadow: 'none',
+          background: '#fff',
         }}
       >
         <LoginForm onLogin={onLogin} loading={loading} errorMessage={errorMessage} />

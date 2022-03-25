@@ -17,7 +17,7 @@ interface Props {
   handleSelectSingle(id: string): void;
   handleChooseToDelete(id: string): void;
   handleClickToUpdate(id: string, enable: boolean): void;
-  handleChangeValue(data: { price: string; amount: string; id: string }, index: number): void;
+  handleChangeValue(data: { price: string; stock: string; id: string }, index: number): void;
 }
 
 const ProductItems = (props: Props) => {
@@ -37,7 +37,7 @@ const ProductItems = (props: Props) => {
 
   const [inputValue, setInputValue] = React.useState({
     price: product.price,
-    amount: product.amount,
+    stock: product.amount,
     id: product.id,
   });
 
@@ -163,7 +163,7 @@ const ProductItems = (props: Props) => {
           <input
             type="number"
             className={changeBg ? 'change-to-input input-default' : 'change-to-input bg-fff'}
-            value={inputValue.amount}
+            value={inputValue.stock}
             onFocus={() => setChangeBg(false)}
             onBlur={() => {
               setChangeBg(true);
@@ -171,7 +171,7 @@ const ProductItems = (props: Props) => {
             }}
             onChange={(e) =>
               setInputValue((prev) => {
-                return { ...prev, amount: e.target.value };
+                return { ...prev, stock: e.target.value };
               })
             }
           />
@@ -197,7 +197,6 @@ const ProductItems = (props: Props) => {
               }}
               onClick={() => {
                 setOpacity(!isOpacity);
-                // handleDeleteItem(product?.id);
                 handleChooseToDelete(product?.id);
               }}
             >

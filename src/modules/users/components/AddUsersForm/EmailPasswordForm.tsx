@@ -12,13 +12,13 @@ export interface AddUserProps {
 }
 
 interface Props {
-  addUserProps: AddUserProps;
+  rest: AddUserProps;
   dataDetail?: CreateUser;
   watch: any;
 }
 
 const EmailPasswordForm = (props: Props) => {
-  const { control, errors } = props.addUserProps;
+  const { control, errors } = props.rest;
   const { dataDetail, watch } = props;
   return (
     <>

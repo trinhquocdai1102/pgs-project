@@ -9,6 +9,7 @@ import { fetchThunk } from '../../../common/redux/thunk';
 import { availability, searchIn, stockStatus } from '../../utils';
 import { Category, Vendor, IProductsFilter } from '../../../../models/products';
 import { styleSingleSelect } from '../../../common/components/CustomCSSMultiSelect';
+import { autoCompleteTheme } from '../../../common/components/MakeStylesMUI';
 import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
 import { useForm, Controller, ControllerRenderProps, FieldValues } from 'react-hook-form';
 import { Autocomplete, Button, Checkbox, createTheme, FormControl, TextField, ThemeProvider } from '@mui/material';
@@ -59,20 +60,18 @@ const FilterProduct = (props: Props) => {
     return;
   }, [dispatch, vendor.length]);
 
-  // const handleChangeCheckBox = (
-  //   e: React.ChangeEvent<HTMLInputElement>,
-  //   checked: boolean,
-  //   field: ControllerRenderProps<FieldValues>,
-  // ) => {
-  //   if (!field.value) {
-  //     field.value = '';
-  //   }
-  //   if (checked) {
-  //     field.onChange([...field.value, e.target.value]);
-  //   } else {
-  //     field.onChange(field.value.filter((value: any) => value !== e.target.value));
-  //   }
-  // };
+  const handleCheckSearchInValue = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    checked: boolean,
+    field: ControllerRenderProps<FieldValues>,
+  ) => {
+    const values = typeof field.value === 'string' ? field.value.split(',') : field.value;
+    if (checked) {
+      field.onChange([...values, e.target.value].filter((item) => item !== '').join());
+    } else {
+      field.onChange(values.filter((value: any) => value !== e.target.value));
+    }
+  };
 
   useEffect(() => {
     fetchCategory();
@@ -192,10 +191,7 @@ const FilterProduct = (props: Props) => {
                                 value={item.value}
                                 size="small"
                                 checked={field.value?.includes(item.value) || false}
-                                // onChange={(e, checked) => {
-                                //   handleChangeCheckBox(e, checked, field.value);
-                                //   console.log(field.value);
-                                // }}
+                                onChange={(e, checked) => handleCheckSearchInValue(e, checked, { ...field })}
                               />
                             </ThemeProvider>
                             {item.title}
@@ -243,38 +239,8 @@ const FilterProduct = (props: Props) => {
               render={({ field: { onChange, value, ...props } }) => (
                 <li className="hidden-search-item" {...props} style={{ alignItems: 'start' }}>
                   <span style={{ marginTop: '8px' }}>Vendor</span>
-                  <FormControl style={{ height: '42px', minWidth: '220px' }}>
-                    <ThemeProvider
-                      theme={createTheme({
-                        components: {
-                          MuiAutocomplete: {
-                            styleOverrides: {
-                              root: {
-                                padding: '0',
-                                input: {
-                                  width: '100% !important',
-                                  height: '40px !important',
-                                  padding: '0 8px !important',
-                                },
-                              },
-                              popper: {
-                                width: '300px !important',
-                                marginLeft: '40px !important',
-                              },
-                              listbox: {
-                                backgroundColor: 'var(--sidebarColor) !important',
-                                width: '100% !important',
-                                paddingTop: 0,
-                              },
-                              option: {
-                                color: '#fff !important',
-                                padding: '12px !important',
-                              },
-                            },
-                          },
-                        },
-                      })}
-                    >
+                  <FormControl style={{ height: '42px', minWidth: '260px' }}>
+                    <ThemeProvider theme={autoCompleteTheme}>
                       <Autocomplete
                         fullWidth
                         options={vendor || []}
@@ -282,7 +248,7 @@ const FilterProduct = (props: Props) => {
                         onChange={(event, item) => {
                           onChange(item ? item.id : '');
                         }}
-                        className="filter-select-product remove-icon-dropdown"
+                        className="filter-select-product remove-icon-dropdown remove-svg"
                         getOptionLabel={(item) => (item.name ? item.name : '')}
                         renderInput={(params) => <TextField {...params} />}
                       />

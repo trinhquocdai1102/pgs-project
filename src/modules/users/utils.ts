@@ -10,7 +10,7 @@ export const accessLevel = [
 ];
 
 export const membership = [
-  { name: 'Ignore Membership', value: null },
+  { name: 'Ignore Membership', value: '' },
   { name: 'General', value: '4' },
 ];
 
@@ -22,7 +22,7 @@ export const memberships = [
   },
   {
     name: 'pending membership',
-    item: 'general',
+    item: 'general ',
     value: 'P_4',
   },
 ];
@@ -72,6 +72,21 @@ export const filterStatus = [
     value: 'null',
     name: 'Any status',
   },
+  {
+    value: 'E',
+    name: 'Enable',
+  },
+  {
+    value: 'D',
+    name: 'Disable',
+  },
+  {
+    value: 'U',
+    name: 'Unapproved vendor',
+  },
+];
+
+export const filterStatusDetail = [
   {
     value: 'E',
     name: 'Enable',

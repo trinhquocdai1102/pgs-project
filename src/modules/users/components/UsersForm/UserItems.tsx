@@ -12,11 +12,12 @@ interface Props {
   labelId: any;
   users: IUserProfile;
   isOpacityAll: boolean;
+  isSidebarOpen: boolean;
   handleChooseToDelete(id: string): void;
 }
 
 const UserItems = (props: Props) => {
-  const { users, labelId, isOpacityAll, handleChooseToDelete } = props;
+  const { users, labelId, isOpacityAll, handleChooseToDelete, isSidebarOpen } = props;
   const [isOpacity, setOpacity] = useState(false);
 
   return (
@@ -68,28 +69,37 @@ const UserItems = (props: Props) => {
         <TableCell>{users?.wishlist}</TableCell>
         <TableCell>{moment(new Date(+users?.created * 1000)).format('MMM DD,YYYY')}</TableCell>
         <TableCell>{moment(new Date(+users?.last_login * 1000)).format('MMM DD,YYYY')}</TableCell>
-        <TableCell>
-          <div style={{ borderLeft: '1px dashed #bbb', paddingLeft: '10px' }}>
-            <Button
-              value={users?.profile_id}
-              variant="text"
+        {!isSidebarOpen && (
+          <TableCell style={{ maxWidth: '68px' }}>
+            <div
               style={{
+                borderLeft: '1px dashed #bbb',
+                paddingLeft: '0',
                 display: 'flex',
-                width: '36px',
-                height: '36px',
-                borderRadius: '4px',
-                background: '#b18aff',
-                justifyContent: 'center',
-              }}
-              onClick={() => {
-                setOpacity(!isOpacity);
-                handleChooseToDelete(users?.profile_id);
+                justifyContent: 'right',
               }}
             >
-              <DeleteIcon style={{ fontSize: '24px', color: '#fff' }} />
-            </Button>
-          </div>
-        </TableCell>
+              <Button
+                value={users?.profile_id}
+                variant="text"
+                style={{
+                  display: 'flex',
+                  width: '36px',
+                  height: '36px',
+                  borderRadius: '4px',
+                  background: '#b18aff',
+                  justifyContent: 'center',
+                }}
+                onClick={() => {
+                  setOpacity(!isOpacity);
+                  handleChooseToDelete(users?.profile_id);
+                }}
+              >
+                <DeleteIcon style={{ fontSize: '24px', color: '#fff' }} />
+              </Button>
+            </div>
+          </TableCell>
+        )}
       </TableRow>
     </>
   );

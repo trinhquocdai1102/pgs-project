@@ -41,9 +41,8 @@ const ProductDetailPage = (props: Props) => {
   };
   const history = useHistory();
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
-  const [dataDetail, setDataDetail] = useState<CreateProduct>();
   const dataField = useSelector((state: AppState) => state.navbar.data);
-
+  const [dataDetail, setDataDetail] = useState<CreateProduct>();
   const [loading, setLoading] = useState(false);
   const [selectedTab, setSelectedTab] = useState(0);
   const [selectedSubTab, setSelectedSubTab] = useState(0);
@@ -84,13 +83,19 @@ const ProductDetailPage = (props: Props) => {
         'change-block-data',
       );
 
+      const vendor = dataField.vendor?.filter((item) => item.id == resp.data.vendor_id)[0];
+      const brand = dataField.brand?.filter((item) => item.id == resp.data.brand_id)[0];
+
       const time = dayjs(resp.data.arrival_date * 1000).format('YYYY-MM-DD');
 
       setDataDetail({
         ...resp.data,
         description: description,
+        vendor_id: vendor,
+        brand_id: brand,
         arrival_date: time,
         shipping: resp.data.shipping,
+        categories: resp.data.categories.map((item: any) => +item.category_id),
       });
 
       return;
@@ -138,14 +143,18 @@ const ProductDetailPage = (props: Props) => {
 
   const onSubmit = useCallback(
     async (data: CreateProduct) => {
-      const newData = {
+      const body = {
         ...data,
         description: convertToHTML(data.description.getCurrentContent()),
         imagesOrder: combineImageOrder(dataDetail?.images, removeItemIndex, data.imagesUpload),
-        remove_images: removeItemIndex,
+        vendor_id: data.vendor_id.id,
+        brand_id: data.brand_id.id,
+        deleted_images: removeItemIndex,
+        shipping_to_zones: data.shipping.map((item: any) => ({ id: item.id, price: item.price })),
       };
 
-      const body = { productDetail: [newData] };
+      console.log(body);
+
       const config = {
         headers: {
           'content-type': 'multipart/form-data',
@@ -153,8 +162,26 @@ const ProductDetailPage = (props: Props) => {
         },
       };
 
-      const json = await axios.post(API_PATHS.createProduct, body, config);
+      const formData = new FormData();
+      formData.append('productDetail', JSON.stringify(body));
+
+      const json = await axios.post(API_PATHS.createProduct, formData, config);
+
       if (json) {
+        if (body.imagesUpload.length > 0) {
+          const temp = body.imagesUpload.map((item: any, index: number) => {
+            const formData = new FormData();
+            formData.append('productId', json.data.data);
+            formData.append('order', JSON.stringify(index));
+            formData.append('images[]', item[0]);
+            return formData;
+          });
+
+          const result = await Promise.all(
+            temp.map((item: any) => axios.post(API_PATHS.uploadProductImage, item, config)),
+          );
+          console.log(result);
+        }
         dispatch(setSnackbar({ open: true, message: 'Update successfully', color: 'success' }));
         return;
       }
@@ -248,7 +275,7 @@ const ProductDetailPage = (props: Props) => {
                     target="_blank"
                     style={{ marginLeft: '20px', color: '#007bff' }}
                   >
-                    http://localhost:3000{ROUTES.detailProduct}/{dataDetail?.id}
+                    {dataDetail?.cleanURL}
                   </Link>
                 </div>
               </div>

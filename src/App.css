@@ -26,14 +26,22 @@
   background-image: none !important;
 }
 
-.filter-select-product.remove-icon-dropdown svg {
-  display: none !important;
+.remove-svg svg {
+  display: none;
 }
+
+/* .filter-select-product.remove-icon-dropdown svg {
+  display: none !important;
+} */
 
 .add-parts-title {
   margin: 16px 0;
   font-size: 26px;
   font-weight: normal;
+}
+
+.add-input.border-color-button {
+  border-color: #a16eff !important;
 }
 
 .button {
@@ -47,6 +55,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
+  border-radius: 4px;
   background: #b18aff;
 }
 
@@ -176,6 +185,10 @@ ul {
   border-radius: 8px;
 }
 
+.sidebar-active {
+  color: #a16eff !important;
+}
+
 .rotate180 {
   transform: rotate(180deg);
   transition: all 0.8;
@@ -276,7 +289,8 @@ ul {
 
 .add-select-custom-icon,
 .filter-select-product,
-.add-icon-collapse {
+.add-icon-collapse,
+.add-dropdown-icon {
   -webkit-appearance: none !important;
   -moz-appearance: none !important;
   background-image: url(https://www.freeiconspng.com/thumbs/white-arrow-png/white-down-arrow-png-2.png) !important;
@@ -484,7 +498,8 @@ input[type='radio'] {
 }
 
 .table-data th {
-  padding: 2px 17px !important;
+  padding: 0 17px !important;
+  height: 53px !important;
 }
 .table-data td {
   padding: 10px 17px !important;
@@ -630,9 +645,9 @@ input[type='radio'] {
   padding-right: 4px !important;
 }
 
-.add-item svg {
+/* .add-item svg {
   margin-right: 20px;
-}
+} */
 
 .add-box {
   display: flex;
@@ -654,10 +669,10 @@ input[type='radio'] {
   min-height: 40px;
   outline: none !important;
   background-color: var(--addInputPageColor);
-  border-radius: 8px;
+  border-radius: 4px;
   color: #fff;
   font-size: 15px !important;
-  border: 1px solid #13132b;
+  border: 1px solid #13132b !important;
 }
 
 .add-category-option-custom.multiselect-option-custom .search-wrapper.searchWrapper,
@@ -783,8 +798,8 @@ input[type='radio'] {
 }
 
 .add-input:hover {
-  background-color: #1b1b38;
-  border: 1px solid #a16eff;
+  background-color: #1b1b38 !important;
+  border-color: #a16eff !important;
 }
 
 .add-input-hover:hover {

@@ -51,7 +51,13 @@ const UsersPage = (props: Props) => {
   });
 
   const handleFilter = useCallback((data: IUserProfileFilter) => {
-    const newData = { ...data, country: data.country ?? '', state: data.state ?? '' };
+    const newData = {
+      ...data,
+      country: data.country ?? '',
+      state: data.state ?? '',
+      phone: data.phone ?? '',
+      address: data.address ?? '',
+    };
     setFilter(newData);
   }, []);
 
@@ -129,12 +135,15 @@ const UsersPage = (props: Props) => {
 
   const handleRemoveUser = useCallback(async () => {
     setLoading(true);
+
     const resp = await dispatch(
       fetchThunk(API_PATHS.updateUser, 'post', {
         params: deleteItem,
       }),
     );
+
     setLoading(false);
+
     setUsers((prev) => prev?.filter((item) => item.delete === false));
     setTotalItem((prev) => prev - deleteItem.length);
     console.log(resp);
@@ -219,6 +228,7 @@ const UsersPage = (props: Props) => {
           itemPerPage={pageInfo.count}
           handleSort={handleSort}
           handleFilter={handleFilter}
+          isSidebarOpen={isSidebarOpen}
           handleSelectAll={handleSelectAll}
           handleChangePage={handleChangePage}
           handleChooseToDelete={handleChooseToDelete}

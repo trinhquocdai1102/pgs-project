@@ -33,6 +33,7 @@ const BottomBar = (props: Props) => {
     handleSaveChange,
   } = props;
   const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpenExport, setModalOpenExport] = useState(false);
   const [dataExportCSV, setDataExportCSV] = useState<any>([]);
 
   const headers = tableHeaderLabel.map((item) => {
@@ -88,10 +89,10 @@ const BottomBar = (props: Props) => {
             variant="text"
             className="footer-btn"
             onClick={() => {
-              setModalOpen(true);
+              setModalOpenExport(true);
             }}
           >
-            {isSelected ? 'Export Select:CSV' : 'Export All:CSV'}
+            {isSelected ? 'Export selected: CSV' : 'Export all: CSV'}
           </Button>
         </div>
       </div>
@@ -120,7 +121,6 @@ const BottomBar = (props: Props) => {
                   className="btn-table-common btn-modal-yes"
                   onClick={() => {
                     setModalOpen(false);
-                    // handleDeleteItem(item.id);
                     handleRemoveProduct();
                   }}
                 >
@@ -180,10 +180,10 @@ const BottomBar = (props: Props) => {
           </div>
         </Modal>
       )}
-      {/* {dataExportCSV.length > 0 ? (
+      {dataExportCSV.length > 0 ? (
         <Modal
-          open={modalOpen}
-          onClose={() => setModalOpen(false)}
+          open={modalOpenExport}
+          onClose={() => setModalOpenExport(false)}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
@@ -191,7 +191,7 @@ const BottomBar = (props: Props) => {
             <div
               className="behind-modal"
               onClick={() => {
-                setModalOpen(false);
+                setModalOpenExport(false);
               }}
             ></div>
             <div className="confirm-modal-content">
@@ -206,7 +206,7 @@ const BottomBar = (props: Props) => {
                   <Button
                     className="btn-table-common btn-modal-yes"
                     onClick={() => {
-                      setModalOpen(false);
+                      setModalOpenExport(false);
                     }}
                   >
                     Yes
@@ -215,7 +215,7 @@ const BottomBar = (props: Props) => {
                 <Button
                   className="btn-table-common btn-modal-no"
                   onClick={() => {
-                    setModalOpen(false);
+                    setModalOpenExport(false);
                   }}
                 >
                   No
@@ -224,7 +224,7 @@ const BottomBar = (props: Props) => {
             </div>
           </div>
         </Modal>
-      ) : null} */}
+      ) : null}
     </>
   );
 };

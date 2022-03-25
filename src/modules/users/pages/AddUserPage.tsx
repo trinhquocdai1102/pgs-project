@@ -77,11 +77,11 @@ const AddUserPage = (props: Props) => {
           <div style={{ fontSize: '26px', fontWeight: '700', color: '#fff' }}>Create profile</div>
         </div>
         <form onSubmit={handleSubmit(onSubmit)} style={{ margin: '5px', width: '100%' }}>
-          <EmailPasswordForm watch={watch} addUserProps={{ control: control, errors: errors }} />
+          <EmailPasswordForm watch={watch} rest={{ control: control, errors: errors }} />
           <div className="separated-space"></div>
-          <AccessInfoForm addUserProps={{ control: control, errors: errors }} />
+          <AccessInfoForm rest={{ control: control, errors: errors }} />
           <div className="separated-space"></div>
-          <TaxInfoForm addUserProps={{ control: control, errors: errors }} />
+          <TaxInfoForm rest={{ control: control, errors: errors }} />
           <div
             style={{ height: '78px', alignItems: 'center' }}
             className={isSidebarOpen ? 'footer-bar-fixed' : 'footer-bar-fixed footer-bar-fixed-full'}

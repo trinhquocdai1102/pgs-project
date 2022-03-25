@@ -27,7 +27,7 @@ const ShippingForm = (props: Props) => {
         return (
           <Box key={item.id} className="add-box">
             <Typography sx={{ fontSize: '16px', color: '#fff', textAlign: 'right', width: '16%' }}>
-              {index === 0 ? 'Continental U.S.' : item.zone_name}
+              {item.name ? item.name : item.zone_name}
               {index === 0 && <span style={{ color: '#dc3545', fontSize: '15px' }}> *</span>}
             </Typography>
             <div className="add-item">
@@ -55,13 +55,13 @@ const ShippingForm = (props: Props) => {
                   control={control}
                   name={`shipping[${index}].price` as any}
                   rules={required}
+                  defaultValue={'0'}
                   render={({ field: { value, ...props } }) => (
                     <input
-                      value={Number(value) || ''}
+                      value={Number(value) || '0.00'}
                       {...props}
                       type="number"
                       className="add-input"
-                      placeholder="0.00"
                       style={{ borderColor: '#a16eff', marginLeft: '-4px', borderRadius: '4px', height: '40px' }}
                     />
                   )}
@@ -114,6 +114,7 @@ const ShippingForm = (props: Props) => {
                 setShippingLocation(selectedItem.index);
               }}
               style={styleSingleSelect}
+              disablePreSelectedValues
               avoidHighlightFirstOption
               singleSelect
             />

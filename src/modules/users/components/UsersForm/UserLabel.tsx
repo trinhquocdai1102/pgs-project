@@ -12,12 +12,13 @@ interface Props {
   setOpacityAll: any;
   sort: 'asc' | 'desc';
   isOpacityAll: boolean;
+  isSidebarOpen: boolean;
   handleSort(name: string): void;
   handleSelectAll(check: boolean): void;
 }
 
 const UserLabel = (props: Props) => {
-  const { order_by, sort, handleSelectAll, handleSort } = props;
+  const { order_by, sort, handleSelectAll, handleSort, isSidebarOpen } = props;
 
   return (
     <>
@@ -54,7 +55,7 @@ const UserLabel = (props: Props) => {
           </TableCell>
         );
       })}
-      <TableCell align="left"></TableCell>
+      {!isSidebarOpen && <TableCell align="left"></TableCell>}
     </>
   );
 };

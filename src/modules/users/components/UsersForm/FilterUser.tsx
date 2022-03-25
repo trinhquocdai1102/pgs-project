@@ -16,15 +16,21 @@ import {
   FormControlLabel,
   List,
   ListItem,
+  MenuItem,
   Radio,
   RadioGroup,
+  Select,
+  SelectChangeEvent,
+  ThemeProvider,
   Typography,
 } from '@mui/material';
 import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
+import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 import { AccountRoles, Country, IUserProfileFilter, State } from '../../../../models/userProfile';
 import { styleMultiSelect, styleSingleSelect } from '../../../common/components/CustomCSSMultiSelect';
 import { getErrorMessageResponse } from '../../../../utils';
 import { date_type, filterStatus, memberships } from '../../utils';
+import { styleSelectMUI } from '../../../common/components/MakeStylesMUI';
 
 interface Props {
   handleFilter(data: IUserProfileFilter): void;
@@ -46,10 +52,10 @@ const FilterUser = (props: Props) => {
     const respCountry = await dispatch(fetchThunk(API_PATHS.countryList, 'get'));
     if (respRole.success && respCountry.success) {
       const administrator = respRole.data['administrator'].map((item: any) => {
-        return { ...item, label: 'Administrator' };
+        return { ...item, label: 'Memberships' };
       });
       const customer = respRole.data['customer'].map((item: any) => {
-        return { ...item, label: 'Customer' };
+        return { ...item, label: 'Pending Memberships' };
       });
       setCountry(respCountry.data);
       setRole(administrator.concat(customer));
@@ -79,10 +85,9 @@ const FilterUser = (props: Props) => {
   const onSubmit = (data: any) => {
     const newData = {
       ...data,
-      country: data?.country?.code || '',
-      state: data?.state?.state || '',
-      status: data?.status?.value || '',
+      status: data?.status?.value,
       types: data?.types?.map((item: { id: any }) => item.id || []),
+      tz: 7,
     };
     handleFilter(newData);
 
@@ -119,15 +124,21 @@ const FilterUser = (props: Props) => {
           />
 
           <Controller
-            render={({ field }) => (
-              <FormControl sx={{ width: '25%', color: '#fff' }} {...field}>
+            render={({ field: { onChange, ...props } }) => (
+              <FormControl sx={{ width: '25%', color: '#fff' }} {...props}>
                 <Multiselect
                   options={memberships}
                   displayValue="item"
                   groupBy="name"
                   placeholder="All membership"
+                  selectedValues={[]}
                   className="filter-select-product remove-icon-delete"
-                  onSelect={(item) => console.log(item)}
+                  onSelect={(selectedList) => {
+                    onChange(selectedList.map((item: { value: any }) => item.value));
+                  }}
+                  onRemove={(selectedList) => {
+                    onChange(selectedList.map((item: { value: any }) => item.value));
+                  }}
                   avoidHighlightFirstOption
                   style={styleMultiSelect}
                   hidePlaceholder
@@ -137,7 +148,7 @@ const FilterUser = (props: Props) => {
             )}
             name="memberships"
             control={control}
-            defaultValue=""
+            defaultValue={[]}
           />
           <Controller
             render={({ field: { onChange } }) => (
@@ -207,25 +218,32 @@ const FilterUser = (props: Props) => {
                   Country
                 </Typography>
                 <Controller
-                  render={({ field: { onChange, ...props } }) => (
+                  render={({ field: { onChange, value, ...props } }) => (
                     <FormControl style={{ width: '72%' }} {...props}>
-                      <Multiselect
-                        options={country}
-                        displayValue="country"
-                        placeholder="Select country"
-                        className="filter-select-product remove-icon-delete"
-                        onSelect={(selectedList, selectedItem) => {
-                          onChange(selectedItem);
-                          if (selectedItem !== '') {
-                            setSelectCountry(selectedItem.code);
-                          } else {
-                            setState([]);
-                          }
-                        }}
-                        style={styleSingleSelect}
-                        avoidHighlightFirstOption
-                        singleSelect
-                      />
+                      <ThemeProvider theme={styleSelectMUI}>
+                        <Select
+                          {...props}
+                          value={value}
+                          IconComponent={KeyboardArrowDownOutlinedIcon}
+                          onChange={(event: SelectChangeEvent) => {
+                            onChange(event.target.value);
+                            if (event.target.value !== '') {
+                              setSelectCountry(event.target.value);
+                            } else {
+                              setState([]);
+                            }
+                          }}
+                        >
+                          <MenuItem value={''}>Select country</MenuItem>
+                          {country?.map((item) => {
+                            return (
+                              <MenuItem key={item.id} value={item.code}>
+                                {item.country}
+                              </MenuItem>
+                            );
+                          })}
+                        </Select>
+                      </ThemeProvider>
                     </FormControl>
                   )}
                   name="country"
@@ -238,21 +256,26 @@ const FilterUser = (props: Props) => {
                   State
                 </Typography>
                 <Controller
-                  render={({ field: { onChange, ...props } }) => (
+                  render={({ field: { onChange, value, ...props } }) => (
                     <FormControl style={{ width: '72%' }} {...props}>
-                      <Multiselect
-                        options={state}
-                        displayValue="state"
-                        placeholder=""
-                        className="filter-select-product remove-icon-delete"
-                        onSelect={(selectedList, selectedItem) => {
-                          onChange(selectedItem);
-                          setSelectCountry(selectedItem.state);
-                        }}
-                        style={styleSingleSelect}
-                        avoidHighlightFirstOption
-                        singleSelect
-                      />
+                      <ThemeProvider theme={styleSelectMUI}>
+                        <Select
+                          {...props}
+                          value={value}
+                          IconComponent={KeyboardArrowDownOutlinedIcon}
+                          onChange={(event: SelectChangeEvent) => {
+                            onChange(event.target.value);
+                          }}
+                        >
+                          {state?.map((item) => {
+                            return (
+                              <MenuItem key={item.state_id} value={item.state}>
+                                {item.state}
+                              </MenuItem>
+                            );
+                          })}
+                        </Select>
+                      </ThemeProvider>
                     </FormControl>
                   )}
                   name="state"
@@ -270,7 +293,7 @@ const FilterUser = (props: Props) => {
                       <input type="text" placeholder="" className="filter-input" />
                     </FormControl>
                   )}
-                  name="state"
+                  name="address"
                   control={control}
                   defaultValue=""
                 />
@@ -285,7 +308,7 @@ const FilterUser = (props: Props) => {
                       <input type="text" placeholder="" className="filter-input" />
                     </FormControl>
                   )}
-                  name="state"
+                  name="phone"
                   control={control}
                   defaultValue=""
                 />

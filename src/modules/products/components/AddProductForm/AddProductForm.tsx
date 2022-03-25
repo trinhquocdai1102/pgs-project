@@ -7,21 +7,10 @@ import { Control, Controller } from 'react-hook-form';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { CreateProduct } from '../../../../models/products';
 import HelpOutlinedIcon from '@mui/icons-material/HelpOutlined';
-import { useStylesSwitch } from '../../../common/components/MakeStylesMUI';
-import {
-  Box,
-  Typography,
-  Switch,
-  Autocomplete,
-  TextField,
-  ThemeProvider,
-  FormControl,
-  createTheme,
-  Select,
-  OutlinedInput,
-  MenuItem,
-} from '@mui/material';
+import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
+import { autoCompleteTheme, useStylesSwitch } from '../../../common/components/MakeStylesMUI';
 import { styleSingleSelect, styleMultiSelect } from '../../../common/components/CustomCSSMultiSelect';
+import { Box, Typography, Switch, Autocomplete, TextField, ThemeProvider, FormControl } from '@mui/material';
 
 export interface AddProductProps {
   errors?: any;
@@ -39,6 +28,22 @@ const AddProductForm = (props: Props) => {
   const classes = useStylesSwitch();
   const { data, control, errors, dataDetail } = props.rest;
   const { handleRemoveImg } = props;
+  const [isRequired, setIsRequired] = useState(true);
+
+  const newDataCategoryName = dataDetail?.categories
+    .map((item) =>
+      data?.category?.filter((value) => {
+        if (+value.id === item) {
+          return { ...value, name: value.name };
+        }
+      }),
+    )
+    .flat();
+
+  console.log(newDataCategoryName);
+
+  const newConditionData = data?.condition?.map((item) => ({ ...item, label: 'Used' }));
+
   const [showHiddenText, setShowHiddenText] = useState(false);
   const required = { required: { value: true, message: 'This field is required' } };
 
@@ -55,40 +60,8 @@ const AddProductForm = (props: Props) => {
                 control={control}
                 rules={required}
                 name="vendor_id"
-                defaultValue={dataDetail ? dataDetail.vendor_id : undefined}
                 render={({ field: { onChange, value, ...props } }) => (
-                  <ThemeProvider
-                    theme={createTheme({
-                      components: {
-                        MuiAutocomplete: {
-                          styleOverrides: {
-                            root: {
-                              padding: '0',
-                              input: {
-                                width: '100% !important',
-                                height: '40px !important',
-                                padding: '0 8px !important',
-                              },
-                            },
-                            listbox: {
-                              backgroundColor: 'var(--sidebarColor) !important',
-                              width: '100% !important',
-                              paddingTop: 0,
-                            },
-                            option: {
-                              color: '#fff !important',
-                              padding: '12px !important',
-                            },
-                          },
-                        },
-                        MuiTextField: {
-                          styleOverrides: {
-                            root: { width: '100%' },
-                          },
-                        },
-                      },
-                    })}
-                  >
+                  <ThemeProvider theme={autoCompleteTheme}>
                     <Autocomplete
                       {...props}
                       value={value || null}
@@ -98,7 +71,7 @@ const AddProductForm = (props: Props) => {
                       onChange={(event, item) => {
                         onChange(item ? item : '');
                       }}
-                      className="filter-select-product remove-icon-dropdown"
+                      className="filter-select-product remove-icon-dropdown remove-svg"
                       renderInput={(params) => <TextField {...params} placeholder="Type Vendor to select" />}
                     />
                   </ThemeProvider>
@@ -135,50 +108,19 @@ const AddProductForm = (props: Props) => {
                 control={control}
                 rules={required}
                 name="brand_id"
-                defaultValue={dataDetail ? dataDetail.brand_id : undefined}
                 render={({ field: { onChange, value, ...props } }) => (
-                  <ThemeProvider
-                    theme={createTheme({
-                      components: {
-                        MuiAutocomplete: {
-                          styleOverrides: {
-                            root: {
-                              padding: '0',
-                              input: {
-                                width: '100% !important',
-                                height: '40px !important',
-                                padding: '0 8px !important',
-                              },
-                            },
-                            listbox: {
-                              backgroundColor: 'var(--sidebarColor) !important',
-                              width: '100% !important',
-                              paddingTop: 0,
-                            },
-                            option: {
-                              color: '#fff !important',
-                              padding: '12px !important',
-                            },
-                          },
-                        },
-                        MuiTextField: {
-                          styleOverrides: {
-                            root: { width: '100%' },
-                          },
-                        },
-                      },
-                    })}
-                  >
+                  <ThemeProvider theme={autoCompleteTheme}>
                     <Autocomplete
                       {...props}
                       value={value || null}
                       isOptionEqualToValue={(option, value) => +option?.id == +value?.id}
                       options={data?.brand || []}
+                      popupIcon={<KeyboardArrowDownOutlinedIcon />}
                       getOptionLabel={(item) => (item ? item.name : '')}
                       onChange={(event, item) => {
                         onChange(item ? item : '');
                       }}
-                      className="filter-select-product remove-icon-dropdown"
+                      className="filter-select-product remove-icon-dropdown add-dropdown-icon"
                       renderInput={(params) => <TextField {...params} placeholder="Type Brand to select" />}
                     />
                   </ThemeProvider>
@@ -196,27 +138,26 @@ const AddProductForm = (props: Props) => {
             <div className="add-item ">
               <Controller
                 control={control}
-                rules={required}
+                rules={{ required: isRequired }}
                 name="condition_id"
                 defaultValue={dataDetail?.condition_id || undefined}
                 render={({ field: { onChange, ...props } }) => (
                   <Multiselect
                     {...props}
-                    displayValue="name"
-                    options={[
-                      {
-                        id: null,
-                        name: 'Used',
-                        value: '295',
-                      },
-                    ]}
+                    displayValue="label"
+                    options={newConditionData}
                     className="filter-select-product filter-select-stock .remove-icon-delete"
                     onSelect={(selectedList, selectedItem) => {
                       onChange(selectedItem.value);
-                      setShowHiddenText(true);
+                      if (selectedItem.value !== '') {
+                        setShowHiddenText(true);
+                        setIsRequired(false);
+                      } else {
+                        setShowHiddenText(false);
+                        setIsRequired(true);
+                      }
                     }}
-                    selectedValues={dataDetail ? dataDetail?.condition_id : []}
-                    placeholder=""
+                    placeholder={dataDetail ? 'Used' : ''}
                     avoidHighlightFirstOption
                     style={styleSingleSelect}
                     hidePlaceholder
@@ -224,13 +165,13 @@ const AddProductForm = (props: Props) => {
                   />
                 )}
               />
-              {showHiddenText && <small>Select Used Condition</small>}
+              {(showHiddenText || dataDetail) && <small>Select Used Condition</small>}
               <Typography style={{ color: 'red', fontSize: '12px', fontWeight: 'normal', margin: '4px 4px 0' }}>
                 {errors ? errors?.condition_id?.message : ''}
               </Typography>
             </div>
           </Box>
-          {showHiddenText && (
+          {(showHiddenText || dataDetail) && (
             <Box className="add-box">
               <Typography sx={{ fontSize: '16px', color: '#fff', textAlign: 'right', width: '16%' }} noWrap>
                 Used Conditions
@@ -269,13 +210,13 @@ const AddProductForm = (props: Props) => {
               Image<span style={{ color: '#dc3545', fontSize: '15px' }}> *</span>
             </Typography>
             <ImagesForm
-              name="imagesOrder"
+              name="imagesUpload"
               control={control}
               dataDetail={dataDetail}
               handleRemoveImg={handleRemoveImg}
             />
             <Typography style={{ color: 'red', fontSize: '12px', fontWeight: 'normal', margin: '4px 4px 0' }}>
-              {errors ? errors?.imagesOrder?.message : ''}
+              {errors ? errors?.imagesUpload?.message : ''}
             </Typography>
           </Box>
           <Box className="add-box">
@@ -288,11 +229,12 @@ const AddProductForm = (props: Props) => {
                 rules={required}
                 name="categories"
                 defaultValue={dataDetail ? dataDetail?.categories : []}
-                render={({ field: { onChange } }) => (
+                render={({ field: { onChange, ...props } }) => (
                   <Multiselect
+                    {...props}
                     displayValue="name"
-                    options={data?.category}
-                    selectedValues={dataDetail ? dataDetail?.categories : []}
+                    options={data?.category || []}
+                    selectedValues={dataDetail ? newDataCategoryName : []}
                     className="filter-select-product filter-select-stock"
                     onSelect={(selectedList) => {
                       onChange(selectedList.map((item: { id: any }) => parseInt(item.id)));
@@ -386,72 +328,3 @@ const AddProductForm = (props: Props) => {
 };
 
 export default AddProductForm;
-
-// <ThemeProvider
-//   theme={createTheme({
-//     components: {
-//       MuiSelect: {
-//         styleOverrides: {
-//           select: {
-//             width: '100%',
-//             padding: '0 !important',
-//             lineHeight: '40px !important',
-//           },
-//           nativeInput: {
-//             width: '100% !important',
-//             height: '40px !important',
-//           },
-//           icon: {
-//             display: 'none !important',
-//           },
-//         },
-//       },
-//       MuiPaper: {
-//         styleOverrides: {
-//           root: {
-//             padding: '0 !important',
-//             backgroundColor: 'var(--sidebarColor)',
-//             maxHeight: '500px !important',
-//             color: '#fff',
-//           },
-//         },
-//       },
-//       MuiList: {
-//         styleOverrides: {
-//           root: {
-//             padding: '0 !important',
-//           },
-//         },
-//       },
-//       MuiMenuItem: {
-//         styleOverrides: {
-//           root: {
-//             padding: '8px 12px !important',
-//           },
-//         },
-//       },
-//       MuiOutlinedInput: {
-//         styleOverrides: {
-//           root: {
-//             padding: '0 !important',
-//           },
-//         },
-//       },
-//     },
-//   })}
-// >
-//   <Select
-//     {...props}
-//     value={value}
-//     input={<OutlinedInput />}
-//     inputProps={{ 'aria-label': 'Without label' }}
-//     className="filter-select-product"
-//     style={{ padding: 0 }}
-//   >
-//     {data?.brand?.map((item) => (
-//       <MenuItem key={item.id} value={item.id?.toString()}>
-//         <span style={{ padding: '0 15px' }}>{item.name}</span>
-//       </MenuItem>
-//     ))}
-//   </Select>
-// </ThemeProvider>;

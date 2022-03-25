@@ -7,9 +7,9 @@ import { API_PATHS } from '../../../configs/api';
 import { AppState } from '../../../redux/reducer';
 import { fetchThunk } from '../../common/redux/thunk';
 import { getErrorMessageResponse } from '../../../utils';
+import BottomBar from '../components/ProductsForm/BottomBar';
 import ProductsForm from '../components/ProductsForm/ProductsForm';
 import { IProducts, IProductsFilter, ProductItemWithUpdateButton } from '../../../models/products';
-import BottomBar from '../components/ProductsForm/BottomBar';
 
 interface Props {
   isSidebarOpen: boolean;
@@ -83,6 +83,7 @@ const ProductsPage = (props: Props) => {
     }
     setErrorMessage(getErrorMessageResponse(resp));
     setProduct([]);
+    setTotalItem(0);
 
     return;
   }, [dispatch, filterValue, pageInfo, sortField]);
@@ -105,9 +106,18 @@ const ProductsPage = (props: Props) => {
     (data: ProductItemWithUpdateButton, index: number) => {
       if (product) {
         const newData = [...product];
-        const cloneItem = { ...newData[index], price: data.price, amount: data.amount };
+        const cloneItem = { ...newData[index], price: data.price, amount: data.stock };
+        if (JSON.stringify(newData[index]) === JSON.stringify(cloneItem)) return;
         newData[index] = cloneItem;
-        setItemChange((prev) => [...prev, data]);
+        setItemChange((prev) => {
+          const newChange = prev.map((item) => +item.id).indexOf(+newData[index].id);
+          if (newChange > -1) {
+            const newData = [...prev];
+            newData[index] = data;
+            return newData;
+          }
+          return [...prev, data];
+        });
         setProduct(newData);
         return;
       }
@@ -159,6 +169,7 @@ const ProductsPage = (props: Props) => {
       }),
     );
     setLoading(false);
+    setItemChange([]);
     console.log(resp);
     return;
   }, [dispatch, itemChange]);
@@ -312,7 +323,7 @@ const ProductsPage = (props: Props) => {
         />
       </div>
       <BottomBar
-        product={product}
+        product={selectItem && selectItem.length > 0 ? selectItem : product}
         isSidebarOpen={isSidebarOpen}
         buttonBottomBar={buttonBottomBar}
         handleSaveChange={handleSaveChange}

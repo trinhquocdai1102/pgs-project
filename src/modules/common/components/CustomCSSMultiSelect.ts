@@ -15,16 +15,25 @@ export const styleMultiSelect = {
     width: '100%',
     border: 'none',
     color: '#fff',
+    padding: 0,
   },
   searchBox: {
     border: 'none',
-    padding: '0',
+    padding: '6px 8px 0',
     borderRadius: '0px',
+    minHeight: '40px',
   },
   inputField: {
     fontSize: '15px',
     fontWeight: '600',
+    height: '40px',
     width: '100%',
+    padding: '0 12px',
+    position: 'absolute',
+    margin: '0',
+    top: '0',
+    color: '#fff',
+    left: '0',
   },
   chips: {
     background: 'var(--buttonColor)',
@@ -65,6 +74,7 @@ export const styleSingleSelect = {
     fontSize: '15px',
     fontWeight: '600',
     padding: '8px 0',
+    height: '40px',
     width: '100%',
   },
   chips: {
@@ -73,7 +83,7 @@ export const styleSingleSelect = {
     fontSize: '15px',
     textTransform: 'capitalize',
     padding: '0',
-    margin: '3px 0 0',
+    margin: '0',
     maxWidth: '100%',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
@@ -128,5 +138,50 @@ export const styleSelectLimited = {
   },
   option: {
     width: '100%',
+  },
+};
+
+export const styleMultiSelectBgTransparent = {
+  groupHeading: {
+    color: '#b4b4db',
+    fontWeight: '600',
+  },
+  optionContainer: {
+    background: 'var(--sidebarColor)',
+    borderColor: '#000',
+    textTransform: 'capitalize',
+  },
+  option: {
+    color: '#fff',
+  },
+  multiselectContainer: {
+    width: '100%',
+    border: 'none',
+    color: '#fff',
+    padding: 0,
+  },
+  searchBox: {
+    border: 'none',
+    padding: '6px 8px 0',
+    borderRadius: '0px',
+    minHeight: '40px',
+  },
+  inputField: {
+    fontSize: '15px',
+    fontWeight: '600',
+    height: '40px',
+    width: '100%',
+    padding: '0 12px',
+    position: 'absolute',
+    margin: '0',
+    top: '0px',
+    color: '#fff',
+    left: '0',
+  },
+  chips: {
+    background: 'transparent',
+    borderRadius: '4px',
+    fontSize: '15px',
+    textTransform: 'capitalize',
   },
 };

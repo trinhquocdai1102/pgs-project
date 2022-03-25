@@ -24,7 +24,7 @@ export interface IProductsFilter {
 export interface ProductItemWithUpdateButton {
   id: string;
   price: string;
-  amount: string;
+  stock: string;
 }
 
 export interface Category {
@@ -49,12 +49,13 @@ export interface Vendor {
 
 export interface Condition {
   id: string | null;
-  value: string | null;
+  label: string | null;
   name: string;
 }
 
 export interface Shipping {
   id: string;
+  name?: string;
   zone_name?: string;
   price: string;
 }
@@ -80,7 +81,7 @@ export interface CreateProduct {
   images: Images[];
   imagesOrder: string[];
   imagesUpload: File[];
-  remove_images: number[];
+  deleted_images: number[];
   categories: number[];
   description: any;
   enabled?: number;
@@ -93,6 +94,7 @@ export interface CreateProduct {
   arrival_date?: string;
   quantity: string;
   shipping: Shipping[];
+  shipping_to_zones: Shipping[];
   og_tags_type?: string;
   og_tags?: string;
   meta_description?: string;
@@ -101,4 +103,5 @@ export interface CreateProduct {
   product_page_title?: string;
   facebook_marketing_enabled?: number;
   google_feed_enabled?: number;
+  cleanURL: string;
 }

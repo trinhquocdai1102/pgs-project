@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import 'react-pro-sidebar/dist/css/styles.css';
 import { ProSidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
@@ -40,18 +40,20 @@ const Sidebar = (props: Props) => {
         <ProSidebar className="sidebar" style={{ boxShadow: isSidebarOpen && 'none' }}>
           <div className={isSidebarOpen ? 'display-full' : 'displayNone'}>
             <Menu iconShape="square" style={{ backgroundColor: 'var(--sidebarColor)' }}>
+              <MenuItem>Dashboard</MenuItem>
               {sidebarItem?.map((item, index) => {
                 const [isCollapse, setCollapse] = useState(true);
                 return (
                   <SubMenu
                     key={index}
-                    title={item.name}
                     icon={<item.icon />}
                     onClick={() => setCollapse(!isCollapse)}
                     className={isCollapse ? 'w100' : 'w90'}
                   >
                     <MenuItem>
-                      <Link to={item.subItem.link}>{item.subItem.name}</Link>
+                      <NavLink activeClassName="sidebar-active" to={item.subItem.link}>
+                        {item.subItem.name}
+                      </NavLink>
                     </MenuItem>
                   </SubMenu>
                 );
@@ -79,7 +81,9 @@ const Sidebar = (props: Props) => {
                     }}
                   >
                     <MenuItem>
-                      <Link to={item.subItem.link}>{item.subItem.name}</Link>
+                      <NavLink activeClassName="sidebar-active" to={item.subItem.link}>
+                        {item.subItem.name}
+                      </NavLink>
                     </MenuItem>
                   </SubMenu>
                 );

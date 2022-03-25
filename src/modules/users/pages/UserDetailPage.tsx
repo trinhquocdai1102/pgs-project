@@ -31,9 +31,6 @@ const UserDetailPage = (props: Props) => {
   };
   const [dataDetail, setDataDetail] = useState<CreateUser>();
   const [loading, setLoading] = useState(false);
-  // const [selectedTab, setSelectedTab] = useState(0);
-  // const [selectedSubTab, setSelectedSubTab] = useState(0);
-  // const [isOpenAddFile, setOpenAddFile] = useState(false);
   const dispatch = useDispatch<ThunkDispatch<AppState, null, Action<string>>>();
 
   const {
@@ -56,8 +53,6 @@ const UserDetailPage = (props: Props) => {
       });
     }
     setLoading(false);
-
-    console.log({ ...resp.data.info });
   }, [dispatch, id]);
 
   const onSubmit = async (data: CreateUser) => {
@@ -112,27 +107,26 @@ const UserDetailPage = (props: Props) => {
           >
             <ArrowBackOutlinedIcon style={{ fontSize: '16px', color: '#000' }} />
           </Button>
-          <div style={{ fontSize: '26px', fontWeight: '700', color: '#fff' }}>{dataDetail?.email}</div>
+          <div style={{ fontSize: '26px', fontWeight: '700', color: '#fff' }}>
+            {dataDetail?.email}
+            {dataDetail?.companyName && <span>({dataDetail.companyName})</span>}
+          </div>
         </div>
         <form autoComplete="off" onSubmit={handleSubmit(onSubmit)} style={{ margin: '5px', width: '100%' }}>
           <AccountDetailForm dataDetail={dataDetail} />
           <div className="separated-space"></div>
-          <EmailPasswordForm
-            dataDetail={dataDetail}
-            watch={watch}
-            addUserProps={{ control: control, errors: errors }}
-          />
+          <EmailPasswordForm dataDetail={dataDetail} watch={watch} rest={{ control: control, errors: errors }} />
           <div className="separated-space"></div>
-          <AccessInfoForm dataDetail={dataDetail} addUserProps={{ control: control, errors: errors }} />
+          <AccessInfoForm dataDetail={dataDetail} rest={{ control: control, errors: errors }} />
           <div className="separated-space"></div>
-          <TaxInfoForm dataDetail={dataDetail} addUserProps={{ control: control, errors: errors }} />
+          <TaxInfoForm dataDetail={dataDetail} rest={{ control: control, errors: errors }} />
           <div
             style={{ height: '78px', alignItems: 'center' }}
             className={isSidebarOpen ? 'footer-bar-fixed' : 'footer-bar-fixed footer-bar-fixed-full'}
           >
             <div className="footer-bar-content" style={{ margin: '10px 0 0' }}>
               <Button variant="text" className="footer-btn footer-btn-add" disabled={!isValid} type="submit">
-                Update user
+                Update
               </Button>
             </div>
           </div>

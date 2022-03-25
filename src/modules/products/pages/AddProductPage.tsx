@@ -55,6 +55,13 @@ const AddProductPage = (props: Props) => {
           price: '0.00',
         },
       ],
+      shipping_to_zones: [
+        {
+          id: '1',
+          zone_name: 'Continental U.S.',
+          price: '0.00',
+        },
+      ],
     },
   });
   const { fields, append, remove } = useFieldArray({ name: 'shipping', control });
@@ -66,8 +73,13 @@ const AddProductPage = (props: Props) => {
       ...data,
       description: convertToHTML(data.description.getCurrentContent()),
       vendor_id: data.vendor_id.id,
+      brand_id: data.brand_id.id,
       imagesOrder: data?.imagesUpload?.map((item: any) => item[0].name),
+      shipping_to_zones: data.shipping.map((item: any) => ({ id: item.id, price: item.price })),
     };
+
+    console.log(body);
+
     const config = {
       headers: {
         'content-type': 'multipart/form-data',
@@ -79,23 +91,25 @@ const AddProductPage = (props: Props) => {
     formData.append('productDetail', JSON.stringify(body));
 
     const json = await axios.post(API_PATHS.createProduct, formData, config);
-    if (json) {
-      // if (body.imagesUpload.length > 0) {
-      //   const temp = body.imagesUpload.map((item: any, index: number) => {
-      //     const formData = new FormData();
-      //     formData.append('productId', json.data.data);
-      //     formData.append('order', JSON.stringify(index));
-      //     formData.append('images[]', item[0]);
-      //     return formData;
-      //   });
 
-      //   const tempResult = await Promise.all(
-      //     temp.map((item: any) => axios.post(API_PATHS.uploadProductImage, item, config)),
-      //   );
-      //   console.log(tempResult);
-      // }
+    if (json) {
+      if (body.imagesUpload.length > 0) {
+        const temp = body.imagesUpload.map((item: any, index: number) => {
+          const formData = new FormData();
+          formData.append('productId', json.data.data);
+          formData.append('order', JSON.stringify(index));
+          formData.append('images[]', item[0]);
+          return formData;
+        });
+
+        const result = await Promise.all(
+          temp.map((item: any) => axios.post(API_PATHS.uploadProductImage, item, config)),
+        );
+        console.log(result);
+      }
 
       setLoading(false);
+      dispatch(replace(`${ROUTES.detailProduct}/${json.data.data}`));
       dispatch(setSnackbar({ open: true, message: 'Create product success', color: 'success' }));
       return;
     }

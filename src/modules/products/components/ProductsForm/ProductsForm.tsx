@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
 import { Button } from '@mui/material';
 import Table from '@mui/material/Table';
 import Paper from '@mui/material/Paper';
@@ -36,7 +36,7 @@ interface Props {
   handleChangItemPerPage(num: number): void;
   handleClickToUpdate(id: string, enable: boolean): void;
   handleChangePage(event: React.ChangeEvent<unknown>, page: number): void;
-  handleChangeValue(data: { price: string; amount: string; id: string }, index: number): void;
+  handleChangeValue(data: { price: string; stock: string; id: string }, index: number): void;
 }
 
 const ProductsForm = (props: Props) => {
@@ -84,18 +84,18 @@ const ProductsForm = (props: Props) => {
           <>
             <TableContainer component={Paper} className="table-data" sx={{ tableLayout: 'auto' }}>
               <Table aria-label="table">
-                <TableHead>
+                <TableHead style={{ height: '50px' }}>
                   <TableRow
                     sx={{
                       borderBottom: '1px solid black',
                     }}
                   >
                     <ProductLabel
-                      sort={sortField.sort}
                       product={product}
-                      order_by={sortField.order_by}
-                      isOpacityAll={isOpacityAll}
+                      sort={sortField.sort}
                       rowCount={product?.length}
+                      isOpacityAll={isOpacityAll}
+                      order_by={sortField.order_by}
                       handleSort={handleSort}
                       setOpacityAll={setOpacityAll}
                       handleSelectAll={handleSelectAll}
@@ -141,4 +141,4 @@ const ProductsForm = (props: Props) => {
   );
 };
 
-export default ProductsForm;
+export default memo(ProductsForm);

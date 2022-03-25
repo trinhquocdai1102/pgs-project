@@ -49,7 +49,7 @@ export interface CreateUser {
   forceChangePassword: 0;
   referer: string;
   statusComment: string;
-  roles: string;
+  roles: string[];
   companyName: string;
   vendor_id: string;
   password: string;

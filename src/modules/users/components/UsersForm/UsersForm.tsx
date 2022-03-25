@@ -28,6 +28,7 @@ interface Props {
   itemPerPage: number;
   errorMessage: string;
   users?: IUserProfile[];
+  isSidebarOpen: boolean;
   handleSort(name: string): void;
   handleSelectAll(check: boolean): void;
   handleChooseToDelete(id: string): void;
@@ -46,6 +47,7 @@ const UsersForm = (props: Props) => {
     itemPerPage,
     handleSort,
     handleFilter,
+    isSidebarOpen,
     handleSelectAll,
     handleChangePage,
     handleChooseToDelete,
@@ -85,13 +87,14 @@ const UsersForm = (props: Props) => {
                     }}
                   >
                     <UserLabel
-                      sort={sortField.sort}
                       users={users}
-                      order_by={sortField.order_by}
-                      isOpacityAll={isOpacityAll}
+                      sort={sortField.sort}
                       rowCount={users?.length}
+                      isOpacityAll={isOpacityAll}
+                      order_by={sortField.order_by}
                       handleSort={handleSort}
                       setOpacityAll={setOpacityAll}
+                      isSidebarOpen={isSidebarOpen}
                       handleSelectAll={handleSelectAll}
                     />
                   </TableRow>
@@ -105,6 +108,7 @@ const UsersForm = (props: Props) => {
                         users={item}
                         labelId={labelId}
                         isOpacityAll={isOpacityAll}
+                        isSidebarOpen={isSidebarOpen}
                         handleChooseToDelete={handleChooseToDelete}
                       />
                     );

@@ -8,7 +8,7 @@ import { CreateProduct } from '../../../../models/products';
 
 interface Props {
   control: Control<CreateProduct, any>;
-  name: 'imagesOrder';
+  name: 'imagesUpload';
   dataDetail?: CreateProduct;
   handleRemoveImg?: (id: number) => void;
 }
@@ -18,6 +18,7 @@ const DropInput = (props: Props) => {
   const [images, setImages] = useState<any[]>([]);
   const [imgId, setImgId] = useState<number[]>([]);
   const [valueImg, setValueImg] = useState<any[]>([]);
+  const [defaultLength, setDefaultLength] = useState(0);
 
   const handleDropImg = (value: File[]) => {
     if (value) {
@@ -29,13 +30,20 @@ const DropInput = (props: Props) => {
     }
   };
 
-  const handleRemoveImgUpload = (value: string[], index: number) => {
-    setImages((prev) => prev.filter((item, key) => key !== index));
-    const newData = value.filter((item, key) => key !== index);
+  const handleRemoveImgUpload = (value: File[], index: number) => {
+    let newData;
+    if (index >= defaultLength) {
+      const valueIndex = index - defaultLength >= 0 ? index - defaultLength : 0;
+      newData = value.filter((_item, i) => +i !== valueIndex);
+    } else {
+      newData = dataDetail ? value : value.filter((_item, i) => i !== index);
+    }
     if (dataDetail && handleRemoveImg && imgId[index]) {
       handleRemoveImg(imgId[index]);
       setImgId((prev) => prev.filter((item) => item !== imgId[index]));
     }
+    setImages((prev) => prev.filter((_item, i) => i !== index));
+    setValueImg(newData);
     return newData;
   };
 
@@ -55,6 +63,8 @@ const DropInput = (props: Props) => {
         return temp;
       });
       setImgId(dataDetail.images.map((item) => +item.id));
+      setDefaultLength(dataDetail.images.length);
+      setValueImg([]);
     }
     return;
   }, [dataDetail]);
@@ -65,10 +75,10 @@ const DropInput = (props: Props) => {
         control={control}
         name={name}
         defaultValue={images}
-        rules={{ required: { value: true, message: 'This field is required' } }}
+        rules={dataDetail ? {} : { required: { value: true, message: 'This field is required' } }}
         render={({ field: { onChange, onBlur, value } }) => (
           <>
-            <div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
+            <div style={{ display: 'flex', flexDirection: 'row-reverse', width: '60%', justifyContent: 'left' }}>
               <List style={{ display: 'flex', flexWrap: 'wrap', height: '100%' }}>
                 {images.map((image: any, index: number) => (
                   <ListItem key={index} style={{ height: '124px', width: '122px', padding: '0', marginRight: '12px' }}>
@@ -76,7 +86,6 @@ const DropInput = (props: Props) => {
                     <div
                       onClick={() => {
                         onChange(handleRemoveImgUpload(value, index));
-                        console.log(value);
                       }}
                     >
                       <CancelIcon
@@ -88,7 +97,7 @@ const DropInput = (props: Props) => {
                 ))}
                 <Dropzone
                   multiple={true}
-                  onDrop={(file: File[]) => {
+                  onDropAccepted={(file: File[]) => {
                     handleDropImg(file);
                     onChange(handleUpload(file));
                   }}
@@ -97,7 +106,7 @@ const DropInput = (props: Props) => {
                     <div {...getRootProps()} className="add-image-box">
                       <CameraAltIcon />
                       <div className="border-camera-icon"></div>
-                      <input type="file" {...getInputProps()} multiple={true} name={name} onBlur={onBlur} />
+                      <input {...getInputProps()} type="file" multiple={true} name={name} onBlur={onBlur} />
                     </div>
                   )}
                 </Dropzone>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import { field } from '../../pages/AddProductPage';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -9,22 +9,56 @@ import { CreateProduct } from '../../../../models/products';
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
 import { MakeStylesCheckBox } from '../../../common/components/MakeStylesCheckBox';
 import { Box, Typography, FormGroup, FormControlLabel } from '@mui/material';
-import { styleSingleSelectSaleUnit } from '../../../common/components/CustomCSSMultiSelect';
+import {
+  styleMultiSelectBgTransparent,
+  styleSingleSelectSaleUnit,
+} from '../../../common/components/CustomCSSMultiSelect';
 
 interface Props {
   control: Control<CreateProduct, any>;
   data?: field;
   errors?: any;
-  defaultValue?: CreateProduct;
   dataDetail?: CreateProduct;
 }
 
 const PriceInventoryForm = (props: Props) => {
-  const { control, errors, defaultValue } = props;
-
+  const { control, errors, dataDetail } = props;
   const [isSale, setSale] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date(Date.now()));
+  const [isTaxExemptCheck, setTaxExemptCheck] = useState(false);
   const required = { required: { value: true, message: 'This field is required' } };
+
+  const membershipDetail = dataDetail?.memberships
+    ?.map((item) =>
+      memberships?.filter((value) => {
+        if (+Object.values(item) === value.value) {
+          return { ...value, label: value.label };
+        }
+      }),
+    )
+    .flat();
+
+  const saleTypeDetail = [dataDetail?.sale_price_type]
+    ?.map((item) =>
+      sale_unit?.filter((value) => {
+        if (item === value.value) {
+          return { ...value, label: value.value };
+        }
+      }),
+    )
+    .flat();
+
+  useEffect(() => {
+    if (dataDetail?.tax_exempt?.toString() === '1') {
+      setTaxExemptCheck(true);
+    } else setTaxExemptCheck(false);
+  }, [dataDetail]);
+
+  useEffect(() => {
+    if (dataDetail?.participate_sale.toString() === '1') {
+      setSale(true);
+    } else setSale(false);
+  }, [dataDetail]);
 
   return (
     <div className="add-form">
@@ -38,18 +72,20 @@ const PriceInventoryForm = (props: Props) => {
             <Controller
               control={control}
               name="memberships"
-              defaultValue={defaultValue?.memberships || []}
+              defaultValue={dataDetail ? dataDetail?.memberships : []}
               render={({ field: { onChange } }) => (
                 <Multiselect
-                  className="add-memberships-option-custom add-input multiselect-option-custom"
+                  className="add-input remove-icon-delete"
                   showCheckbox
                   options={memberships}
                   displayValue="label"
+                  selectedValues={dataDetail ? membershipDetail : []}
                   hidePlaceholder
                   placeholder=""
+                  style={styleMultiSelectBgTransparent}
                   avoidHighlightFirstOption
                   onSelect={(selectedList) => {
-                    onChange(selectedList[0].value);
+                    onChange([selectedList[0].value]);
                   }}
                 />
               )}
@@ -64,19 +100,24 @@ const PriceInventoryForm = (props: Props) => {
               <Controller
                 control={control}
                 name="tax_exempt"
-                defaultValue={defaultValue?.tax_exempt || 0}
-                render={({ field: { value, onChange, ...props } }) => (
+                defaultValue={dataDetail ? dataDetail.tax_exempt : 0}
+                render={({ field: { onChange, ...props } }) => (
                   <FormGroup>
                     <FormControlLabel
                       style={{ color: '#fff' }}
                       control={
                         <MakeStylesCheckBox
-                          value={value}
-                          checked={value === 1}
                           {...props}
-                          onChange={(e, checked) => {
-                            if (checked) onChange(1);
-                            else onChange(0);
+                          value={isTaxExemptCheck}
+                          checked={isTaxExemptCheck}
+                          onChange={(_e, checked) => {
+                            if (checked) {
+                              onChange(1);
+                              setTaxExemptCheck(true);
+                            } else {
+                              onChange(0);
+                              setTaxExemptCheck(false);
+                            }
                           }}
                         />
                       }
@@ -116,15 +157,19 @@ const PriceInventoryForm = (props: Props) => {
                   control={control}
                   name="price"
                   rules={required}
-                  defaultValue={defaultValue?.price || ''}
+                  defaultValue={dataDetail?.price || ''}
                   render={({ field: { value, ...props } }) => (
                     <input
-                      value={Number(value) || ''}
+                      value={Number(value) || '0'}
                       {...props}
                       type="number"
                       placeholder="0.00"
-                      className="add-input"
-                      style={{ borderColor: '#a16eff', marginLeft: '-4px', maxWidth: '180px', borderRadius: '4px' }}
+                      className="add-input border-color-button"
+                      style={{
+                        marginLeft: '-4px',
+                        maxWidth: '180px',
+                        borderRadius: '4px',
+                      }}
                     />
                   )}
                 />
@@ -143,9 +188,12 @@ const PriceInventoryForm = (props: Props) => {
                         control={
                           <MakeStylesCheckBox
                             value={isSale}
-                            onChange={(e, checked) => {
-                              if (checked) onChange(1);
-                              else onChange(0);
+                            checked={isSale}
+                            onChange={(_e, checked) => {
+                              if (checked) {
+                                onChange(1);
+                                setSale(true);
+                              } else onChange(0);
                               setSale(!isSale);
                             }}
                           />
@@ -178,8 +226,8 @@ const PriceInventoryForm = (props: Props) => {
                           hidePlaceholder
                           placeholder=""
                           avoidHighlightFirstOption
-                          selectedValues={[sale_unit[1]]}
-                          onSelect={(selectedList, selectedItem) => {
+                          selectedValues={dataDetail ? saleTypeDetail : [sale_unit[1]]}
+                          onSelect={(_selectedList, selectedItem) => {
                             onChange(selectedItem.value);
                           }}
                           singleSelect
@@ -190,14 +238,14 @@ const PriceInventoryForm = (props: Props) => {
                     <Controller
                       control={control}
                       name="sale_price"
-                      defaultValue={defaultValue?.sale_price || ''}
+                      defaultValue={dataDetail?.sale_price || ''}
                       render={({ field: { value, ...props } }) => (
                         <input
                           value={value}
                           {...props}
                           type="number"
-                          className="add-input"
-                          style={{ borderColor: '#a16eff', marginLeft: '1px', maxWidth: '240px', borderRadius: '4px' }}
+                          className="add-input border-color-button"
+                          style={{ marginLeft: '1px', maxWidth: '240px', borderRadius: '4px' }}
                         />
                       )}
                     />
@@ -233,19 +281,19 @@ const PriceInventoryForm = (props: Props) => {
               <Controller
                 control={control}
                 name="arrival_date"
-                defaultValue={defaultValue?.arrival_date || ''}
+                defaultValue={dataDetail?.arrival_date || ''}
                 render={({ field: { onChange, ...props } }) => (
                   <DatePicker
                     {...props}
                     selected={selectedDate}
                     onChange={(date: Date) => {
                       setSelectedDate(date);
-                      onChange((date.getTime() / 1000).toString());
+                      onChange(date);
                     }}
                     dateFormat="yyyy-MM-dd"
                     showYearDropdown
                     scrollableMonthYearDropdown
-                    className="add-input"
+                    className="add-input border-color-button"
                   />
                 )}
               />

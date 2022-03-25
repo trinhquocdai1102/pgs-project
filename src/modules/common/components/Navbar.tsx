@@ -203,7 +203,7 @@ const Navbar: FC<Props> = ({ children, isSidebarOpen, setIsSidebarOpen, handleOp
             </Toolbar>
           </AppBar>
         )}
-        <div style={{ display: 'flex' }}>
+        <div style={{ display: 'flex', backgroundColor: '#1b1b38' }}>
           {isLogin && <Sidebar isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />}
           {children}
         </div>
